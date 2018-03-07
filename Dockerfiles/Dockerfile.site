@@ -6,7 +6,7 @@ RUN adduser -h /home/jump/ -D jump jump
 COPY . /home/jump/
 RUN chown -R jump:jump /home/jump
 WORKDIR /home/jump
-RUN go get -u github.com/eyedeekay/gosam
 USER jump
+RUN go get -u github.com/eyedeekay/gosam
 RUN make
 CMD ./bin/thirdeye

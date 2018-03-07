@@ -30,6 +30,14 @@ docker-build-site:
 docker-build-host:
 	docker build -f Dockerfiles/Dockerfile.host -t eyedeekay/thirdeye_host .
 
+clean-build: clean-site clean-host
+
+clean-site:
+	docker rm -f thirdeye-site; true
+
+clean-host:
+	docker rm -f thirdeye-host; true
+
 docker-run: docker-run-host docker-run-site
 
 docker-run-site: docker-network
@@ -52,3 +60,9 @@ docker-run-host: docker-network
 		--volume $(i2pd_dat):/var/lib/i2pd:rw \
 		--restart always \
 		eyedeekay/thirdeye-host
+
+update-site: clean-site build-site docker-run-site
+
+update-host: clean-host build-host docker-run-host
+
+update: clean-build docker-build docker-run
