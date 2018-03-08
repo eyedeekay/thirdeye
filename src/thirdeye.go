@@ -18,14 +18,14 @@ func main(){
     upstream := flag.String("upstream", "http://i2p2.i2p/hosts.txt,http://i2host.i2p/cgi-bin/i2hostetag", "")
     parent := flag.String("parent", "http://stats.i2p/cgi-bin/newhosts.txt", "Fetch new hosts from here")
     hostfile := flag.String("hostfile", "localhosts.txt", "Local hosts file")
-    verbosity := flag.Int("verbosity", 0, "Verbosity level: 0=Quiet 1=Fatal 2=Warning 3=Debug")
+    verbosity := flag.Int("verbosity", 1, "Verbosity level: 0=Quiet 1=Fatal 2=Warning 3=Debug")
 
     flag.Parse()
 
 
     loglevel = *verbosity
     log.Println("Log level: ", *verbosity)
-    wait := time.Duration(*interval) * time.Second
+    wait := time.Duration(*interval) * time.Hour
     log.Println("Updater Interval: ", *interval, wait )
 
     hostsData := newHostUpdater(*samhost, *samport, *retries, *upstream, *parent, *hostfile)
@@ -34,7 +34,7 @@ func main(){
     log.Println("Starting jump service web site: ", jumpService.fullAddress())
 
     for true {
-        log.Println("Getting updates")
+        log.Println("Starting loop")
         hostsData.hostUpdate()
         time.Sleep(wait)
     }
