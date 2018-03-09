@@ -6,8 +6,8 @@ RUN echo "deb-src http://repo.lngserv.ru/debian stretch main" | tee -a /etc/apt/
 RUN gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 66F6C87B98EBCFE2; \
 	gpg -a --export 66F6C87B98EBCFE2 | apt-key add -
 RUN apt-get update && apt-get install -y i2pd
-COPY etc/i2pd/tunnels.conf /etc/i2pd/tunnels.conf
-COPY etc/i2pd/i2pd.conf /etc/i2pd/i2pd.conf
+COPY etc/i2pd/tunnels.thirdeye.conf /etc/i2pd/tunnels.conf
+COPY etc/i2pd/i2pd.thirdeye.conf /etc/i2pd/i2pd.conf
 CMD chown -R i2pd:i2pd /var/lib/i2pd; \
     ln -sf /usr/share/i2pd/certificates /var/lib/i2pd/certificates; \
     ln -sf /etc/i2pd/subscriptions.txt /var/lib/i2pd/subscriptions.txt; \
