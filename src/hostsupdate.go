@@ -74,6 +74,7 @@ func (updater *hostUpdater) sortHostList() [][]string{
         tempHostList = append(tempHostList, updater.parseNl(string(dat))...)
 	}
     sort.Strings(tempHostList)
+    updater.hostList = [][]string{[]string{}, []string{}}
     for i, s := range tempHostList {
         if ! (s == tempHostList[i-1]) {
             updater.hostList = append(updater.hostList, strings.SplitN(s, "=", 2))
