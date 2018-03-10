@@ -83,7 +83,6 @@ func (jumpsite *jumpService) checkWhiteList(s string) bool {
 }
 
 func (jumpsite *jumpService) hosts(w http.ResponseWriter, r *http.Request) bool {
-	//jumpsite.length()
 	for _, t := range jumpsite.getHosts() {
 		log.Println(len(t))
 		if len(t) == 2 {
@@ -99,21 +98,27 @@ func (jumpsite *jumpService) doJump(test string, w http.ResponseWriter, r *http.
 	for _, t := range jumpsite.getHosts() {
 		if len(t) == 2 {
 			if t[0] == test {
+                val := strings.SplitN(t[1], "#", 2)
+                line := "http://" + t[0] + "/?i2paddresshelper=" + val[0]
+                w.Header().Set("Location", line)
 				w.WriteHeader(301)
+                jumpsite.emitHeader(w, r)
 				fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
-				line := t[0] + "=" + t[1] + "\n"
-				fmt.Fprintln(w, line)
+                fmt.Fprintln(w, "<pre><code>")
+				fmt.Fprintln(w, "    ", line)
+                fmt.Fprintln(w, "</pre></code>")
+                jumpsite.emitFooter(w, r)
 				b = true
 				return b
-			} else {
-				w.WriteHeader(200)
-				fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
 			}
 		}
-		if b {
-			break
-		}
 	}
+    if ! b {
+        w.WriteHeader(200)
+        jumpsite.emitHeader(w, r)
+        fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
+        jumpsite.emitFooter(w, r)
+    }
 	return b
 }
 
@@ -128,9 +133,7 @@ func (jumpsite *jumpService) provideHosts(s string, w http.ResponseWriter, r *ht
 }
 
 func (jumpsite *jumpService) handleJump(s string, w http.ResponseWriter, r *http.Request) bool {
-	jumpsite.emitHeader(w, r)
 	jumpsite.doJump(s, w, r)
-	jumpsite.emitFooter(w, r)
 	return true
 }
 
@@ -154,7 +157,6 @@ func (jumpsite *jumpService) handle404(l int, s []string, w http.ResponseWriter,
 		fmt.Fprintln(w, r.URL.Path)
 		fmt.Fprintln(w, "You're lost, go home")
 	}
-
 	return false, 0
 }
 
@@ -223,7 +225,7 @@ func (jumpsite *jumpService) Serve() {
 
 func (jumpsite *jumpService) loadHosts() [][]string {
 	dat, err := ioutil.ReadFile(jumpsite.hostfile)
-	jumpsite.hostList = [][]string{[]string{}, []string{}}
+	//jumpsite.hostList = [][]string{[]string{}, []string{}}
 	if !jumpsite.Warn(err, "Error reading host file, may take a moment to start up.") {
 		jumpsite.Log("Local host file read into slice")
 		jumpsite.hostList = append(jumpsite.hostList, jumpsite.parseKvp(string(dat))...)
