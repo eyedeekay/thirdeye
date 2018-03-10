@@ -15,7 +15,7 @@ func main() {
 	logwl := flag.String("logwl", "", "Whitelist of urls to never log")
 	samhost := flag.String("samhost", "127.0.0.1", "Host address to listen on.")
 	samport := flag.String("samport", "7656", "Port to listen on.")
-	host := flag.String("host", "127.0.0.1", "Host address to listen on.")
+	host := flag.String("host", "0.0.0.0", "Host address to listen on.")
 	port := flag.String("port", "8053", "Port to listen on.")
 	retries := flag.Int("retries", 2, "Number of attempts to fetch new hosts")
 	interval := flag.Int("interval", 6, "Hours between updatess")
