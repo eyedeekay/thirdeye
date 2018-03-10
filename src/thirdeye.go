@@ -68,8 +68,8 @@ func main() {
 		LogWhiteList)
 	go jumpService.Serve()
 	for true {
-		//hostUpdater.hostUpdate()
-		//jumpService.loadHosts()
+		hostUpdater.hostUpdate()
+		jumpService.loadHosts()
 		time.Sleep(wait)
 	}
 

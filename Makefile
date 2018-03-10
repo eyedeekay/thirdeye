@@ -38,6 +38,14 @@ clean-site:
 clean-host:
 	docker rm -f thirdeye-host; true
 
+clobber-build: clobber-site clobber-host
+
+clobber-site:
+	docker rmi -f eyedeekay/thirdeye-site; true
+
+clobber-host:
+	docker rmi -f eyedeekay/thirdeye-host; true
+
 docker-run: docker-run-host docker-run-site
 
 docker-run-site: docker-network

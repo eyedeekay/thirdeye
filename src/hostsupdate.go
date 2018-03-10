@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+    "sort"
 	"strings"
 	"time"
 )
@@ -54,6 +55,33 @@ func (updater *hostUpdater) writeHostList() error {
 	return err
 }
 
+func (updater *hostUpdater) parseNl(s string) []string {
+	hosts := []string{}
+	for index, host := range strings.Split(s, "\n") {
+		updater.Log(host)
+        if host != hosts[index - 1] {
+            hosts = append(hosts, host)
+        }
+	}
+	return hosts
+}
+
+func (updater *hostUpdater) sortHostList() [][]string{
+    dat, err := ioutil.ReadFile(updater.hostfile)
+	tempHostList := []string{}
+	if !updater.Warn(err, "Error reading host file, may take a moment to start up.") {
+		updater.Log("Local host file read into slice")
+        tempHostList = append(tempHostList, updater.parseNl(string(dat))...)
+	}
+    sort.Strings(tempHostList)
+    for i, s := range tempHostList {
+        if ! (s == tempHostList[i-1]) {
+            updater.hostList = append(updater.hostList, strings.SplitN(s, "=", 2))
+        }
+    }
+	return updater.hostList
+}
+
 func (updater *hostUpdater) hostUpdate() {
 	t := updater.retries
 	var hostList string
@@ -83,6 +111,8 @@ func (updater *hostUpdater) hostUpdate() {
 		t--
 	}
 	updater.writeHostList()
+    updater.sortHostList()
+    updater.writeHostList()
 	updater.Log("Updates complete.")
 }
 
