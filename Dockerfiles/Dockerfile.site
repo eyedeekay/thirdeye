@@ -5,7 +5,7 @@ RUN apk add go go-tools git make musl-dev musl musl-utils #python3
 RUN adduser -h /home/jump/ -D jump jump
 COPY . /home/jump/
 RUN chown -R jump:jump /home/jump
-RUN chmod a+r /home/jump/etc/thirdeye/subscriptions.txt
+RUN chmod a+r /home/jump/etc/thirdeye/localhosts.txt
 WORKDIR /home/jump
 USER jump
 RUN go get -u github.com/eyedeekay/gosam
