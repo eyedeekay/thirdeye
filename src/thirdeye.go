@@ -7,7 +7,7 @@ import (
 )
 
 var loglevel int
-var debug bool
+var wait time.Duration
 
 func main(){
     title := flag.String("title", "Thirdeye Based Jump Service", "Title of the service.")
@@ -19,33 +19,58 @@ func main(){
     port := flag.String("port", "8053", "Port to listen on.")
     retries := flag.Int("retries", 2, "Number of attempts to fetch new hosts")
     interval := flag.Int("interval", 6, "Hours between updatess")
+    newhosts := flag.String("newhosts", "http://stats.i2p/cgi-bin/newhosts.txt", "Fetch new hosts from here")
     upstream := flag.String("upstream", "http://i2p2.i2p/hosts.txt,http://i2host.i2p/cgi-bin/i2hostetag", "Fetch more hosts from here")
-    parent := flag.String("newhosts", "http://stats.i2p/cgi-bin/newhosts.txt", "Fetch new hosts from here")
     hostfile := flag.String("hostfile", "etc/thirdeye/localhosts.txt", "Local hosts file")
-    debug = *flag.Bool("debug", false, "Print connection debug info" )
+    debug := flag.Bool("debug", false, "Print connection debug info" )
     verbosity := flag.Int("verbosity", 4, "Verbosity level: 0=Quiet 1=Fatal 2=Warning 3=Debug")
 
     flag.Parse()
 
-    loglevel = *verbosity
+    Title := *title
+    Description := *desc
+    LogWhiteList := *logwl
+    Host := *host
+    Port := *port
+
+    Retries := *retries
+    Interval := *interval
+    NewHosts := *newhosts
+    Upstream := *upstream
+    HostFile := *hostfile
+
+    SamConnHost := *samhost
+    SamConnPort := *samport
+    Debug := *debug
+    Verbosity := *verbosity
+
+
+    loglevel = Verbosity
 
     log.Println("Log level: ", *verbosity)
-    wait := time.Duration(*interval) * time.Hour
-    log.Println("Updater Interval: ", *interval, wait )
+    wait = time.Duration(Interval) * time.Hour
+    log.Println("Updater Interval: ", Interval, wait )
+    log.Println("Updating hosts...")
+    hostUpdater := newHostUpdater(SamConnHost,
+        SamConnPort,
+        Retries,
+        Upstream,
+        NewHosts,
+        HostFile,
+        Debug)
 
-    hostsData := newHostUpdater(*samhost, *samport, *retries, *upstream, *parent, *hostfile)
+    hostUpdater.Log("Hostupdater created.")
 
-    jumpService := newJumpService(*host, *port, *title, *desc, *logwl)
-
-    log.Println("loading local jump service data:")
-    jumpService.newData(hostsData.getHosts())
-
-    log.Println("Starting jump service web site: ", jumpService.fullAddress())
-
+    jumpService := newJumpService(Host,
+        Port,
+        Title,
+        Description,
+        HostFile,
+        LogWhiteList)
+    go jumpService.Serve()
     for true {
-        log.Println("Starting loop")
-        hostsData.hostUpdate()
-        jumpService.newData(hostsData.getHosts())
+        hostUpdater.hostUpdate()
+        jumpService.loadHosts()
         time.Sleep(wait)
     }
 

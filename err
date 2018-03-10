@@ -1,0 +1,216 @@
+2018/03/10 01:24:28 Log level:  4
+2018/03/10 01:24:28 Updater Interval:  6 6h0m0s
+2018/03/10 01:24:28 Updating hosts...
+2018/03/10 01:24:28 Looking for SAM bridge on: 127.0.0.1
+2018/03/10 01:24:28 At port: 7656
+2018/03/10 01:24:28 Connected to the SAM bridge on: 127.0.0.1:7656
+2018/03/10 01:24:28 Where to store hosts files: etc/thirdeye/localhosts.txt
+2018/03/10 01:24:28 Local host file read into slice
+2018/03/10 01:24:28 fuubar.i2p
+2018/03/10 01:24:28 webviewer.aktie.i2p
+2018/03/10 01:24:28 crypt.i2p
+2018/03/10 01:24:28 gopher.khzae.i2p
+2018/03/10 01:24:28 sendyourdreamswherenobodyhides.i2p
+2018/03/10 01:24:28 darkrealm.i2p
+2018/03/10 01:24:28 mattsrandomstuff.i2p
+2018/03/10 01:24:28 toolbox.2a-usa.i2p
+2018/03/10 01:24:28 epmano.i2p
+2018/03/10 01:24:28 9.i2p
+2018/03/10 01:24:28 cash.i2p
+2018/03/10 01:24:28 z-lab.i2p
+2018/03/10 01:24:28 skyn3t.i2p
+2018/03/10 01:24:28 fossil.z-lab.i2p
+2018/03/10 01:24:28 dorienkoelemeijer.i2p
+2018/03/10 01:24:28 def2.i2p
+2018/03/10 01:24:28 parazite2.i2p
+2018/03/10 01:24:28 ansoma.i2p
+2018/03/10 01:24:28 ttt.i2p
+2018/03/10 01:24:28 nsa.i2p
+2018/03/10 01:24:28 frdgiim.i2p
+2018/03/10 01:24:28 bayes.i2p
+2018/03/10 01:24:28 khzae.i2p
+2018/03/10 01:24:28 xecut.i2p
+2018/03/10 01:24:28 zeronet.i2p
+2018/03/10 01:24:28 make.i2p
+2018/03/10 01:24:28 xmppfree.i2p
+2018/03/10 01:24:28 quicktalk.i2p
+2018/03/10 01:24:28 gstbtc.i2p
+2018/03/10 01:24:28 sadagga.i2p
+2018/03/10 01:24:28 chippygabe.i2p
+2018/03/10 01:24:28 fluxdirect.i2p
+2018/03/10 01:24:28 cryption.i2p
+2018/03/10 01:24:28 lostfilechat.i2p
+2018/03/10 01:24:28 kkjjhlhlba.i2p
+2018/03/10 01:24:28 irc.freespeechzone.i2p
+2018/03/10 01:24:28 igwt.i2p
+2018/03/10 01:24:28 devulgar.i2p
+2018/03/10 01:24:28 bugfuzz.i2p
+2018/03/10 01:24:28 hacklab.i2p
+2018/03/10 01:24:28 cracknet.i2p
+2018/03/10 01:24:28 zede.i2p
+2018/03/10 01:24:28 obmen.i2p
+2018/03/10 01:24:28 mei.i2p
+2018/03/10 01:24:28 xb.i2p
+2018/03/10 01:24:28 def3.i2p
+2018/03/10 01:24:28 lolicatgirls.i2p
+2018/03/10 01:24:28 archaicbinarybbs.i2p
+2018/03/10 01:24:28 osiristomb.i2p
+2018/03/10 01:24:28 blokchainpartners.i2p
+2018/03/10 01:24:28 bluebird.i2p
+2018/03/10 01:24:28 aktie.i2p
+2018/03/10 01:24:28 fa1c0n.i2p
+2018/03/10 01:24:28 interirc.i2p
+2018/03/10 01:24:28 lyra.i2p
+2018/03/10 01:24:28 projectencrypt.i2p
+2018/03/10 01:24:28 evilchat.i2p
+2018/03/10 01:24:28 hierarchie.i2p
+2018/03/10 01:24:28 illuminati.i2p
+2018/03/10 01:24:28 skank.i2p
+2018/03/10 01:24:28 thecat.i2p
+2018/03/10 01:24:28 vpnbest.i2p
+2018/03/10 01:24:28 tahoeserve.i2p
+2018/03/10 01:24:28 retrobbs2.i2p
+2018/03/10 01:24:28 sircd.i2p
+2018/03/10 01:24:28 easygpg.i2p
+2018/03/10 01:24:28 eepshare-project.i2p
+2018/03/10 01:24:28 iamevil.i2p
+2018/03/10 01:24:28 yottabyte.i2p
+2018/03/10 01:24:28 ukid.i2p
+2018/03/10 01:24:28 ann0net.i2p
+2018/03/10 01:24:28 priv.i2p
+2018/03/10 01:24:28 proffrink.i2p
+2018/03/10 01:24:28 busyrider.i2p
+2018/03/10 01:24:28 evilgit.i2p
+2018/03/10 01:24:28 i2pforum.i2p
+2018/03/10 01:24:28 darksocial.i2p
+2018/03/10 01:24:28 secretchat.i2p
+2018/03/10 01:24:28 conscious.i2p
+2018/03/10 01:24:28 libertor.i2p
+2018/03/10 01:24:28 no1sg.i2p
+2018/03/10 01:24:28 Hostupdater created.
+2018/03/10 01:24:28 setting log whitelist: 
+2018/03/10 01:24:28 setting title: Thirdeye Based Jump Service
+2018/03/10 01:24:28 setting description: Thirdeye based jump service
+2018/03/10 01:24:28 setting host: 127.0.0.1
+2018/03/10 01:24:28 setting port: 8053
+2018/03/10 01:24:28 Listening at: 127.0.0.1 At port: 8053
+2018/03/10 01:24:28 loading local jump service data:
+2018/03/10 01:24:28 Local host file read into slice
+2018/03/10 01:24:28 fuubar.i2p
+2018/03/10 01:24:28 webviewer.aktie.i2p
+2018/03/10 01:24:28 crypt.i2p
+2018/03/10 01:24:28 gopher.khzae.i2p
+2018/03/10 01:24:28 sendyourdreamswherenobodyhides.i2p
+2018/03/10 01:24:28 darkrealm.i2p
+2018/03/10 01:24:28 mattsrandomstuff.i2p
+2018/03/10 01:24:28 toolbox.2a-usa.i2p
+2018/03/10 01:24:28 epmano.i2p
+2018/03/10 01:24:28 9.i2p
+2018/03/10 01:24:28 cash.i2p
+2018/03/10 01:24:28 z-lab.i2p
+2018/03/10 01:24:28 skyn3t.i2p
+2018/03/10 01:24:28 fossil.z-lab.i2p
+2018/03/10 01:24:28 dorienkoelemeijer.i2p
+2018/03/10 01:24:28 def2.i2p
+2018/03/10 01:24:28 parazite2.i2p
+2018/03/10 01:24:28 ansoma.i2p
+2018/03/10 01:24:28 ttt.i2p
+2018/03/10 01:24:28 nsa.i2p
+2018/03/10 01:24:28 frdgiim.i2p
+2018/03/10 01:24:28 bayes.i2p
+2018/03/10 01:24:28 khzae.i2p
+2018/03/10 01:24:28 xecut.i2p
+2018/03/10 01:24:28 zeronet.i2p
+2018/03/10 01:24:28 make.i2p
+2018/03/10 01:24:28 xmppfree.i2p
+2018/03/10 01:24:28 quicktalk.i2p
+2018/03/10 01:24:28 gstbtc.i2p
+2018/03/10 01:24:28 sadagga.i2p
+2018/03/10 01:24:28 chippygabe.i2p
+2018/03/10 01:24:28 fluxdirect.i2p
+2018/03/10 01:24:28 cryption.i2p
+2018/03/10 01:24:28 lostfilechat.i2p
+2018/03/10 01:24:28 kkjjhlhlba.i2p
+2018/03/10 01:24:28 irc.freespeechzone.i2p
+2018/03/10 01:24:28 igwt.i2p
+2018/03/10 01:24:28 devulgar.i2p
+2018/03/10 01:24:28 bugfuzz.i2p
+2018/03/10 01:24:28 hacklab.i2p
+2018/03/10 01:24:28 cracknet.i2p
+2018/03/10 01:24:28 zede.i2p
+2018/03/10 01:24:28 obmen.i2p
+2018/03/10 01:24:28 mei.i2p
+2018/03/10 01:24:28 xb.i2p
+2018/03/10 01:24:28 def3.i2p
+2018/03/10 01:24:28 lolicatgirls.i2p
+2018/03/10 01:24:28 archaicbinarybbs.i2p
+2018/03/10 01:24:28 osiristomb.i2p
+2018/03/10 01:24:28 blokchainpartners.i2p
+2018/03/10 01:24:28 bluebird.i2p
+2018/03/10 01:24:28 aktie.i2p
+2018/03/10 01:24:28 fa1c0n.i2p
+2018/03/10 01:24:28 interirc.i2p
+2018/03/10 01:24:28 lyra.i2p
+2018/03/10 01:24:28 projectencrypt.i2p
+2018/03/10 01:24:28 evilchat.i2p
+2018/03/10 01:24:28 hierarchie.i2p
+2018/03/10 01:24:28 illuminati.i2p
+2018/03/10 01:24:28 skank.i2p
+2018/03/10 01:24:28 thecat.i2p
+2018/03/10 01:24:28 vpnbest.i2p
+2018/03/10 01:24:28 tahoeserve.i2p
+2018/03/10 01:24:28 retrobbs2.i2p
+2018/03/10 01:24:28 sircd.i2p
+2018/03/10 01:24:28 easygpg.i2p
+2018/03/10 01:24:28 eepshare-project.i2p
+2018/03/10 01:24:28 iamevil.i2p
+2018/03/10 01:24:28 yottabyte.i2p
+2018/03/10 01:24:28 ukid.i2p
+2018/03/10 01:24:28 ann0net.i2p
+2018/03/10 01:24:28 priv.i2p
+2018/03/10 01:24:28 proffrink.i2p
+2018/03/10 01:24:28 busyrider.i2p
+2018/03/10 01:24:28 evilgit.i2p
+2018/03/10 01:24:28 i2pforum.i2p
+2018/03/10 01:24:28 darksocial.i2p
+2018/03/10 01:24:28 secretchat.i2p
+2018/03/10 01:24:28 conscious.i2p
+2018/03/10 01:24:28 libertor.i2p
+2018/03/10 01:24:28 no1sg.i2p
+2018/03/10 01:24:28 Starting jump service web site:  127.0.0.1:8053
+2018/03/10 01:24:28 Getting updates from new host providers.
+2018/03/10 01:24:28 Initializing handler handle
+2018/03/10 01:24:28 Data length 0
+2018/03/10 01:24:28 Fetching updates from: http://stats.i2p/cgi-bin/newhosts.txt
+WARNING: Lookup() Replyed to another name. assuming i2pd c++ fluke
+2018/03/10 01:24:29 Data length 0
+2018/03/10 01:24:29 0
+2018/03/10 01:24:29 0
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2
+2018/03/10 01:24:29 2

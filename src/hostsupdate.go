@@ -11,13 +11,16 @@ import (
 )
 
 type hostUpdater struct{
-    retries int
-    tryFirst string
-    parentList string
+    samHost string
+    samPort string
     samBridgeClient *goSam.Client
     samBridgeErrors error
 
-    hostList [][][]string
+    retries int
+    tryFirst string
+    parentList string
+
+    hostList [][]string
     hostfile string
 }
 
@@ -31,6 +34,7 @@ func (updater *hostUpdater) parseKvp(s string) [][]string{
     for _, host := range strings.Split(s, "\n"){
         kv := strings.SplitN(host, "=", 2)
         if len(kv) == 2 {
+            updater.Log(kv[0])
             *hosts = append(*hosts, kv)
         }
     }
@@ -41,14 +45,11 @@ func (updater *hostUpdater) writeHostList() error {
     f, err := os.Create(updater.hostfile)
     updater.Fatal(err, "File I/O errors")
     defer f.Close()
-    for _, s := range updater.hostList {
-        for _, t := range s {
-            if len(t) == 2 {
-                line := t[0] +"="+ t[1] +"\n"
-                f.WriteString(line)
-            }
+    for _, t := range updater.hostList {
+        if len(t) == 2 {
+            line := t[0] +"="+ t[1] +"\n"
+            f.WriteString(line)
         }
-        f.WriteString("\n")
     }
     return err
 }
@@ -61,9 +62,7 @@ func (updater *hostUpdater) hostUpdate(){
         for _, u := range updater.parseCsv(updater.tryFirst) {
             if done, h := updater.get(u); done {
                 hostList += h + "\n"
-                updater.hostList = append(updater.hostList, updater.parseKvp(hostList))
-                updater.writeHostList()
-                t = 0
+                updater.hostList = append(updater.hostList, updater.parseKvp(hostList)...)
                 break
             }
             time.Sleep(time.Duration(1) * time.Second)
@@ -76,15 +75,14 @@ func (updater *hostUpdater) hostUpdate(){
         for _, u := range updater.parseCsv(updater.parentList) {
             if done, h := updater.get(u); done {
                 hostList += h + "\n"
-                updater.hostList = append(updater.hostList, updater.parseKvp(hostList))
-                updater.writeHostList()
-                t = 0
+                updater.hostList = append(updater.hostList, updater.parseKvp(hostList)...)
                 break
             }
             time.Sleep(time.Duration(1) * time.Second)
         }
         t--
     }
+    updater.writeHostList()
     updater.Log("Updates complete.")
 }
 
@@ -115,7 +113,7 @@ func (updater *hostUpdater) get(s string) (bool, string){
     return t, r
 }
 
-func (updater *hostUpdater) getHosts() [][][]string{
+func (updater *hostUpdater) getHosts() [][]string{
     return updater.hostList
 }
 
@@ -147,28 +145,30 @@ func (updater *hostUpdater) Fatal(err error,s string) bool{
     return false
 }
 
-func newHostUpdater(samhost string, samport string, retries int, upstream string, parent string, hostfile string) *hostUpdater{
+func (updater *hostUpdater) loadHosts() [][]string{
+    dat, err := ioutil.ReadFile(updater.hostfile)
+    updater.hostList = [][]string{[]string{}, []string{}}
+    if ! updater.Warn(err, "Error reading host file, may take a moment to start up.") {
+        updater.Log("Local host file read into slice")
+        updater.hostList = append(updater.hostList, updater.parseKvp(string(dat))...)
+    }
+    return updater.hostList
+}
+
+func newHostUpdater(samhost string, samport string, retries int, upstream string, parent string, hostfile string, debug bool) *hostUpdater{
     var h hostUpdater
+    h.samHost = samhost
+    h.samPort = samport
     h.Log("Looking for SAM bridge on: " + samhost)
     h.Log("At port: " + samport)
     h.samBridgeClient, h.samBridgeErrors = goSam.NewClient(samhost + ":" + samport)
-    h.Log("Connected to the SAM bridge on: " + samhost + ":" + samport)
     goSam.ConnDebug = debug
+    h.Log("Connected to the SAM bridge on: " + samhost + ":" + samport)
     h.parentList = upstream
-    for _, url := range h.parseCsv(h.parentList) {
-        h.Log("Upstream host providers: " + url)
-    }
     h.tryFirst = parent
-    for _, url := range h.parseCsv(h.tryFirst) {
-        h.Log("New host providers: " + url)
-    }
     h.hostfile = hostfile
     h.Log("Where to store hosts files: " + hostfile)
-    dat, err := ioutil.ReadFile(h.hostfile)
-    if ! h.Warn(err, "Error reading host file, may take a moment to start up.") {
-        h.hostList = append(h.hostList, h.parseKvp(string(dat)))
-    }
+    h.loadHosts()
     h.retries = retries
-    log.Println("Retry limit for requesting new hosts: ", retries)
     return &h
 }

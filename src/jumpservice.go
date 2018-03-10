@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "io/ioutil"
     "net/http"
     "log"
     "strings"
@@ -17,10 +18,10 @@ type jumpService struct{
 
     serverErr error
     mux *http.ServeMux
-    hostList [][][]string
+    hostList [][]string
 }
 
-func (jumpsite jumpService) initMux() *http.ServeMux {
+func (jumpsite *jumpService) initMux() *http.ServeMux {
     mux := http.NewServeMux()
 
 	mux.HandleFunc("/stats", func(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +50,7 @@ func (jumpsite jumpService) initMux() *http.ServeMux {
     return mux
 }
 
-func (jumpsite jumpService) emitHeader(w http.ResponseWriter, r *http.Request) (bool){
+func (jumpsite *jumpService) emitHeader(w http.ResponseWriter, r *http.Request) (bool){
     fmt.Fprintln(w, "<!DOCTYPE html>")
     fmt.Fprintln(w, "<html>")
     fmt.Fprintln(w, "  <head>")
@@ -62,13 +63,17 @@ func (jumpsite jumpService) emitHeader(w http.ResponseWriter, r *http.Request) (
     return true
 }
 
-func (jumpsite jumpService) emitFooter(w http.ResponseWriter, r *http.Request) (bool){
+func (jumpsite *jumpService) getHosts() [][]string{
+    return jumpsite.hostList
+}
+
+func (jumpsite *jumpService) emitFooter(w http.ResponseWriter, r *http.Request) (bool){
     fmt.Fprintln(w, "  </body>")
     fmt.Fprintln(w, "</html>")
     return true
 }
 
-func (jumpsite jumpService) checkWhiteList(s string) bool {
+func (jumpsite *jumpService) checkWhiteList(s string) bool {
      for _, lwl := range jumpsite.parseCsv(jumpsite.logwl) {
         if s == lwl {
             return true
@@ -77,14 +82,16 @@ func (jumpsite jumpService) checkWhiteList(s string) bool {
     return false
 }
 
-func (jumpsite jumpService) hosts(w http.ResponseWriter, r *http.Request) (bool){
-    if len(jumpsite.hostList) > 0 {
+func (jumpsite *jumpService) hosts(w http.ResponseWriter, r *http.Request) (bool){
+    //jumpsite.length()
+    if len(jumpsite.getHosts()) > 0 {
         return false
     }
-    for _, s := range jumpsite.hostList {
-        log.Println(len(s))
-        for _, t := range s {
-            if len(t) == 2 {
+    fmt.Fprintln(w, jumpsite.getHosts())
+    for _, t := range jumpsite.getHosts() {
+        log.Println(len(t))
+        for _, s := range t {
+            if len(s) == 2 {
                 line := t[0] +"="+ t[1] +"\n"
                 fmt.Fprintln(w, line)
             }
@@ -93,22 +100,22 @@ func (jumpsite jumpService) hosts(w http.ResponseWriter, r *http.Request) (bool)
     return true
 }
 
-func (jumpsite jumpService) doJump(test string, w http.ResponseWriter, r *http.Request) (bool){
+func (jumpsite *jumpService) doJump(test string, w http.ResponseWriter, r *http.Request) (bool){
     b := false
-    fmt.Fprintln(w, "Hello, you hit jump!", test, "checking hosts", len(jumpsite.hostList[0]))
-    if len(jumpsite.hostList) > 0 {
+    fmt.Fprintln(w, "Hello, you hit jump!", test, "checking hosts")
+    jumpsite.length()
+    if len(jumpsite.getHosts()) <= 0 {
         return b
     }
-    for _, s := range jumpsite.hostList {
-        log.Println(len(s))
-        for _, t := range s {
-            if len(t) == 2 {
-                if t[0] == test {
-                    line := t[0] +"="+ t[1] +"\n"
-                    fmt.Fprintln(w, line)
-                    b = true
-                    return b
-                }
+    fmt.Fprintln(w, "checking hosts", len(jumpsite.getHosts()))
+    for _, t := range jumpsite.getHosts() {
+        log.Println(len(t))
+        if len(t) == 2 {
+            if t[0] == test {
+                line := t[0] +"="+ t[1] +"\n"
+                fmt.Fprintln(w, line)
+                b = true
+                return b
             }
         }
         if b { break }
@@ -117,24 +124,26 @@ func (jumpsite jumpService) doJump(test string, w http.ResponseWriter, r *http.R
 }
 
 
-func (jumpsite jumpService) provideHosts(s string, w http.ResponseWriter, r *http.Request) (bool){
+func (jumpsite *jumpService) provideHosts(s string, w http.ResponseWriter, r *http.Request) (bool){
     if jumpsite.checkWhiteList(s) {
         jumpsite.hosts(w, r)
+        fmt.Fprintln(w, jumpsite.getHosts())
     } else {
         jumpsite.hosts(w, r)
+        fmt.Fprintln(w, jumpsite.getHosts())
         jumpsite.Log("Hosts were requested across the following URL " + s)
     }
     return true
 }
 
-func (jumpsite jumpService) handleJump(s string, w http.ResponseWriter, r *http.Request) (bool){
+func (jumpsite *jumpService) handleJump(s string, w http.ResponseWriter, r *http.Request) (bool){
     jumpsite.emitHeader(w, r)
     jumpsite.doJump(s, w, r)
     jumpsite.emitFooter(w, r)
     return true
 }
 
-func (jumpsite jumpService) handle404(l int, s []string, w http.ResponseWriter, r *http.Request) (bool, int){
+func (jumpsite *jumpService) handle404(l int, s []string, w http.ResponseWriter, r *http.Request) (bool, int){
     if l == 1 {
         return true, l
     }else if l == 2 {
@@ -158,56 +167,79 @@ func (jumpsite jumpService) handle404(l int, s []string, w http.ResponseWriter, 
     return false, 0
 }
 
-func (jumpsite jumpService) newData(s [][][]string){
-    for _, h := range s {
-        jumpsite.hostList = append(jumpsite.hostList, h)
-    }
-    log.Println("Appended new data: ", len(s[0]))
-    jumpsite.Log("Loaded new data")
+func (jumpsite *jumpService) length(){
+    log.Println("Data length", len(jumpsite.getHosts()[0]))
 }
 
-func (jumpsite jumpService) parseCsv(s string) []string{
+func (jumpsite *jumpService) parseCsv(s string) []string{
     urls := strings.Split(s, ",")
     return urls
 }
 
-func (jumpsite jumpService) fullAddress() string{
+func (jumpsite *jumpService) parseKvp(s string) [][]string{
+    hosts := &[][]string{}
+    for _, host := range strings.Split(s, "\n"){
+        kv := strings.SplitN(host, "=", 2)
+        if len(kv) == 2 {
+            jumpsite.Log(kv[0])
+            *hosts = append(*hosts, kv)
+        }
+    }
+    return *hosts
+}
+
+func (jumpsite *jumpService) fullAddress() string{
     return jumpsite.host + ":" + jumpsite.port
 }
 
-func (jumpsite jumpService) Log(s string){
+func (jumpsite *jumpService) Log(s string){
     if loglevel > 2 {
         log.Println(s)
     }
 }
 
-func (jumpsite jumpService) Warn(err error, s string){
+func (jumpsite *jumpService) Warn(err error, s string) bool{
     if loglevel > 1 {
         if err != nil {
             log.Println(s)
+            return true
         }
+        return false
     }
+    return false
 }
 
-func (jumpsite jumpService) Fatal(err error,s string){
+func (jumpsite *jumpService) Fatal(err error,s string) bool{
     if loglevel > 0 {
         if err != nil {
             log.Println(s)
+            return true
         }
+        return false
     }
+    return false
 }
 
-func (jumpsite jumpService) Serve() error{
+func (jumpsite *jumpService) Serve(){
     jumpsite.Log("Initializing handler handle")
+    jumpsite.length()
     if err := http.ListenAndServe(jumpsite.fullAddress(), jumpsite.mux); err != nil {
         jumpsite.Warn(err, "Fatal Error: server not started")
         jumpsite.serverErr = err
-        return err
     }
-    return nil
 }
 
-func newJumpService(host string, port string, title string, desc string, logwl string) *jumpService{
+func (jumpsite *jumpService) loadHosts() [][]string{
+    dat, err := ioutil.ReadFile(jumpsite.hostfile)
+    jumpsite.hostList = [][]string{[]string{}, []string{}}
+    if ! jumpsite.Warn(err, "Error reading host file, may take a moment to start up.") {
+        jumpsite.Log("Local host file read into slice")
+        jumpsite.hostList = append(jumpsite.hostList, jumpsite.parseKvp(string(dat))...)
+    }
+    return jumpsite.hostList
+}
+
+func newJumpService(host string, port string, title string, desc string, hostfile string, logwl string) *jumpService{
     var j jumpService
     j.logwl = logwl
     j.Log("setting log whitelist: ")
@@ -221,7 +253,9 @@ func newJumpService(host string, port string, title string, desc string, logwl s
     j.Log("setting port: " + port)
     j.mux = j.initMux()
     j.Log("Listening at: " + j.host + " At port: " + j.port)
-    go j.Serve()
-	j.Fatal(j.serverErr, "Error starting server.")
+    log.Println("loading local jump service data:")
+    j.hostfile = hostfile
+    j.loadHosts()
+    log.Println("Starting jump service web site: ", j.fullAddress())
     return &j
 }
