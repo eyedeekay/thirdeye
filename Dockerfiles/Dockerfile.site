@@ -9,5 +9,5 @@ RUN chmod a+r /home/jump/etc/thirdeye/localhosts.txt
 WORKDIR /home/jump
 USER jump
 RUN go get -u github.com/eyedeekay/gosam
-#RUN make
+RUN make
 CMD ./bin/thirdeye
