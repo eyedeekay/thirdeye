@@ -12,7 +12,7 @@ release:
 	go build -race -buildmode=pie -o bin/thirdeye src/*
 
 docker-network:
-	docker network create thirdeye
+	docker network create thirdeye; true
 	@echo 'thirdeye' | tee network
 
 log-network:
@@ -25,10 +25,10 @@ clean-network: clean
 docker-build: docker-build-host docker-build-site
 
 docker-build-site:
-	docker build -f Dockerfiles/Dockerfile.site -t eyedeekay/thirdeye .
+	docker build -f Dockerfiles/Dockerfile.site -t eyedeekay/thirdeye-site .
 
 docker-build-host:
-	docker build -f Dockerfiles/Dockerfile.host -t eyedeekay/thirdeye_host .
+	docker build -f Dockerfiles/Dockerfile.host -t eyedeekay/thirdeye-host .
 
 clean-build: clean-site clean-host
 
