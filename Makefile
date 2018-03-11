@@ -56,7 +56,6 @@ docker-run-site: docker-network
 		--network thirdeye \
 		--network-alias thirdeye-site \
 		--hostname thirdeye-site \
-		--link thirdeye-host \
 		--restart always \
 		eyedeekay/thirdeye-site
 
