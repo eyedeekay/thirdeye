@@ -72,8 +72,8 @@ docker-run-host: docker-network
 		--restart always \
 		eyedeekay/thirdeye-host
 
-update-site: clean-site build-site docker-run-site
+update-site: clean-site docker-build-site docker-run-site
 
-update-host: clean-host build-host docker-run-host
+update-host: clean-host docker-build-host docker-run-host
 
 update: clean-build docker-build docker-run
