@@ -2,7 +2,7 @@ FROM alpine:3.5
 ENV GOPATH=/home/jump/go/bin
 RUN apk update
 RUN apk add go go-tools musl-dev git make
-#RUN adduser -h /home/jump/ -D jump jump
+RUN adduser -h /home/jump/ -D jump jump
 COPY . /home/jump/
 RUN chown -R jump:jump /home/jump
 RUN chmod a+r /home/jump/etc/thirdeye/localhosts.txt
