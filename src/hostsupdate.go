@@ -82,11 +82,11 @@ func (updater *hostUpdater) sortHostList() [][]string{
     updater.hostList = [][]string{[]string{}, []string{}}
     for index, host := range tempHostList {
         if index -1 > 0 {
-            if ! (host == tempHostList[i-1]) {
-                updater.hostList = append(updater.hostList, strings.SplitN(s, "=", 2))
+            if ! (host == tempHostList[index-1]) {
+                updater.hostList = append(updater.hostList, strings.SplitN(host, "=", 2))
             }
         }else{
-            updater.hostList = append(updater.hostList, strings.SplitN(s, "=", 2))
+            updater.hostList = append(updater.hostList, strings.SplitN(host, "=", 2))
         }
     }
 	return updater.hostList
