@@ -5,6 +5,11 @@ i2pd_dat?=$(PWD)/i2pd_dat
 build:
 	go build -a -o bin/thirdeye src/*
 
+pull:
+	git pull && true
+
+install: pull update
+
 debug:
 	gdb bin/thirdeye
 
