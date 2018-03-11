@@ -10,4 +10,4 @@ WORKDIR /home/jump
 RUN go get -u github.com/eyedeekay/gosam
 RUN make release
 USER jump
-CMD ./bin/thirdeye -samhost=172.18.0.2
+CMD ./bin/thirdeye -samhost=thirdeye-host -host=thirdeye-site
