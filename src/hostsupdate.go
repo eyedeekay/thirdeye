@@ -63,7 +63,10 @@ func (updater *hostUpdater) parseNl(s string) []string {
             if host != hosts[index - 1] {
                 hosts = append(hosts, host)
             }
+        }else{
+            hosts = append(hosts, host)
         }
+
 	}
 	return hosts
 }
