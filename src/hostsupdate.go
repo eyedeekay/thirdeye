@@ -59,8 +59,10 @@ func (updater *hostUpdater) parseNl(s string) []string {
 	hosts := []string{}
 	for index, host := range strings.Split(s, "\n") {
 		updater.Log(host)
-        if host != hosts[index - 1] {
-            hosts = append(hosts, host)
+        if index - 1 > 0 {
+            if host != hosts[index - 1] {
+                hosts = append(hosts, host)
+            }
         }
 	}
 	return hosts

@@ -3,13 +3,16 @@
 i2pd_dat?=$(PWD)/i2pd_dat
 
 build:
-	go build -o bin/thirdeye src/*
+	go build -a -o bin/thirdeye src/*
+
+debug:
+	gdb bin/thirdeye
 
 clean:
 	rm -f bin/thirdeye
 
 release:
-	go build -race -buildmode=pie -o bin/thirdeye src/*
+	go build -a -buildmode=pie -o bin/thirdeye src/*
 
 docker-network:
 	docker network create thirdeye; true
