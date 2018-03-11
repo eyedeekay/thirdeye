@@ -10,4 +10,4 @@ WORKDIR /home/jump
 RUN go get -u github.com/eyedeekay/gosam
 RUN make release
 USER jump
-CMD ./bin/thirdeye -samhost thirdeye-host
+CMD ./bin/thirdeye -samhost thirdeye-host -samport 7656 -host thirdeye-site -port 8053
