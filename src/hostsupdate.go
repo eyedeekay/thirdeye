@@ -166,14 +166,14 @@ func (updater *hostUpdater) getHosts() [][]string {
 
 func (updater *hostUpdater) Log(s ...string) {
 	if loglevel > 2 {
-		log.Println(s)
+		log.Println("LOG: ", s)
 	}
 }
 
 func (updater *hostUpdater) Warn(err error, s string) bool {
 	if loglevel > 1 {
 		if err != nil {
-			log.Println(s, err)
+			log.Println("WARN:", s, err)
 			return true
 		}
 		return false
@@ -184,7 +184,7 @@ func (updater *hostUpdater) Warn(err error, s string) bool {
 func (updater *hostUpdater) Fatal(err error, s string) bool {
 	if loglevel > 0 {
 		if err != nil {
-			log.Println(s, err)
+			log.Println("FATAL: ", s, err)
 			return true
 		}
 		return false
