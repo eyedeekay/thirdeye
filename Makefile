@@ -3,10 +3,9 @@
 i2pd_dat?=$(PWD)/i2pd_dat
 
 build:
-	GOOS=linux GOARCH=amd64 go build -a -o bin/thirdeye -a \
+	GOOS=linux GOARCH=amd64 go build -a -o bin/thirdeye \
 		-tags netgo \
 		-ldflags '-w -extldflags "-static"' \
-		-o bin/si-i2p-plugin \
 		./src
 
 pull:
