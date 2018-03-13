@@ -132,7 +132,7 @@ func (updater *hostUpdater) hostUpdate() {
 		t--
 	}
     updater.writeHostList()
-    updater.hostList = nil
+    updater.hostList = [][]string{nil, nil}
 	updater.hostList = updater.sortHostList()
     updater.writeHostList()
 	updater.Log("Updates complete.")
