@@ -68,7 +68,7 @@ func (updater *hostUpdater) writeHostList() error {
 
 func (updater *hostUpdater) parseNl(s string) []string {
 	hosts := []string{}
-	for index, host := range strings.Split(s, "\n") {
+	for _, host := range strings.Split(s, "\n") {
 		hosts = append(hosts, host)
 	}
 	return hosts
