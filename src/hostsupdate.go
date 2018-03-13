@@ -89,6 +89,7 @@ func (updater *hostUpdater) sortHostList() [][]string{
         tempHostList = append(tempHostList, updater.parseNl(string(dat))...)
 	}
     sort.Strings(tempHostList)
+    updater.hostList = nil
     updater.hostList = [][]string{[]string{}, []string{}}
     for index, host := range tempHostList {
         if index -1 > 0 {
