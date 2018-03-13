@@ -51,7 +51,7 @@ func (updater *hostUpdater) parseKvp(s string) [][]string {
 }
 
 func (updater *hostUpdater) writeHostList() error {
-    exist, exerr := exists(updater.hostfile)
+    exist, _ := exists(updater.hostfile)
     if exist {
         os.Remove(updater.hostfile)
     }
