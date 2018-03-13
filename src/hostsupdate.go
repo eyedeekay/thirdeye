@@ -43,7 +43,6 @@ func (updater *hostUpdater) parseKvp(s string) [][]string {
 	for _, host := range strings.Split(s, "\n") {
 		kv := strings.SplitN(host, "=", 2)
 		if len(kv) == 2 {
-			updater.Log(kv[0])
 			*hosts = append(*hosts, kv)
 		}
 	}
@@ -78,7 +77,6 @@ func (updater *hostUpdater) parseNl(s string) []string {
         }else{
             hosts = append(hosts, host)
         }
-
 	}
 	return hosts
 }
