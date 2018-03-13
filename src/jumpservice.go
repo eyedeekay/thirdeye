@@ -43,7 +43,11 @@ func (jumpsite *jumpService) initMux() *http.ServeMux {
 			if handle == 1 {
 				jumpsite.provideHosts(u[0], w, r)
 			} else if handle == 2 {
-				jumpsite.handleJump(u[1], w, r)
+                if u[0] == "jump" {
+                    jumpsite.handleJump(u[1], w, r)
+                }else{
+                    jumpsite.handleSearch(u[1], w, r)
+                }
 			}
 		}
 	})
@@ -93,6 +97,35 @@ func (jumpsite *jumpService) hosts(w http.ResponseWriter, r *http.Request) bool 
 	return true
 }
 
+func (jumpsite *jumpService) doSearch(test string, w http.ResponseWriter, r *http.Request) bool {
+	b := false
+	for _, t := range jumpsite.getHosts() {
+		if len(t) == 2 {
+			if t[0] == test {
+				val := strings.SplitN(t[1], "#", 2)
+				line := "http://" + t[0] + "/?i2paddresshelper=" + val[0]
+                w.WriteHeader(200)
+				fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
+				fmt.Fprintln(w, "<pre><code>")
+				fmt.Fprintln(w, "    ", line)
+				fmt.Fprintln(w, "</pre></code>")
+                fmt.Fprintln(w, "<a href=\"", line ,"\">")
+				jumpsite.emitFooter(w, r)
+				b = true
+				return b
+			}
+		}
+	}
+	if !b {
+		w.WriteHeader(200)
+		jumpsite.emitHeader(w, r)
+		fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
+        fmt.Fprintln(w, "<h1>", "No results for:", test, "</h1>")
+		jumpsite.emitFooter(w, r)
+	}
+	return b
+}
+
 func (jumpsite *jumpService) doJump(test string, w http.ResponseWriter, r *http.Request) bool {
 	b := false
 	for _, t := range jumpsite.getHosts() {
@@ -117,6 +150,7 @@ func (jumpsite *jumpService) doJump(test string, w http.ResponseWriter, r *http.
 		w.WriteHeader(200)
 		jumpsite.emitHeader(w, r)
 		fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
+        fmt.Fprintln(w, "<h1>", "No results for:", test, "</h1>")
 		jumpsite.emitFooter(w, r)
 	}
 	return b
@@ -134,6 +168,11 @@ func (jumpsite *jumpService) provideHosts(s string, w http.ResponseWriter, r *ht
 
 func (jumpsite *jumpService) handleJump(s string, w http.ResponseWriter, r *http.Request) bool {
 	jumpsite.doJump(s, w, r)
+	return true
+}
+
+func (jumpsite *jumpService) handleSearch(s string, w http.ResponseWriter, r *http.Request) bool {
+	jumpsite.doSearch(s, w, r)
 	return true
 }
 
