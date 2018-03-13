@@ -188,14 +188,14 @@ func (jumpsite *jumpService) fullAddress() string {
 
 func (jumpsite *jumpService) Log(s string) {
 	if loglevel > 2 {
-		log.Println(s)
+		log.Println("LOG: ", s)
 	}
 }
 
 func (jumpsite *jumpService) Warn(err error, s string) bool {
 	if loglevel > 1 {
 		if err != nil {
-			log.Println(s)
+			log.Println("WARN: ", s)
 			return true
 		}
 		return false
@@ -206,7 +206,7 @@ func (jumpsite *jumpService) Warn(err error, s string) bool {
 func (jumpsite *jumpService) Fatal(err error, s string) bool {
 	if loglevel > 0 {
 		if err != nil {
-			log.Println(s)
+			log.Println("FATAL: ", s)
 			return true
 		}
 		return false
