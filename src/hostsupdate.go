@@ -216,7 +216,7 @@ func newHostUpdater(samhost string, samport string, retries int, upstream string
 	h.Log("Where to store hosts files: " + hostfile)
 	h.hostList = h.loadHosts()
 	h.retries = retries
-    h.sortHostList()
+    h.hostList = h.sortHostList()
 	h.writeHostList()
 	return &h
 }
