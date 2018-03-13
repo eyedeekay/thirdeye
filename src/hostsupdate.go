@@ -30,6 +30,14 @@ func (updater *hostUpdater) parseCsv(s string) []string {
 	return hosts
 }
 
+func exists(file string) bool{
+    if _, err := os.Stat(file); err == nil {
+        return true, err
+    }else{
+        return false, err
+    }
+}
+
 func (updater *hostUpdater) parseKvp(s string) [][]string {
 	hosts := &[][]string{}
 	for _, host := range strings.Split(s, "\n") {
@@ -43,6 +51,10 @@ func (updater *hostUpdater) parseKvp(s string) [][]string {
 }
 
 func (updater *hostUpdater) writeHostList() error {
+    exist, exerr := exists(updater.hostfile)
+    if exist {
+        os.Remove(updater.hostfile)
+    }
 	f, err := os.Create(updater.hostfile)
 	updater.Fatal(err, "File I/O errors")
 	defer f.Close()

@@ -3,7 +3,11 @@
 i2pd_dat?=$(PWD)/i2pd_dat
 
 build:
-	go build -a -o bin/thirdeye src/*
+	GOOS=linux GOARCH=amd64 go build -a -o bin/thirdeye -a \
+		-tags netgo \
+		-ldflags '-w -extldflags "-static"' \
+		-o bin/si-i2p-plugin \
+		./src
 
 pull:
 	git pull && true
@@ -83,3 +87,9 @@ update-site: clean-site docker-build-site docker-run-site
 update-host: clean-host docker-build-host docker-run-host
 
 update: clean-build docker-build docker-run
+
+curltest:
+	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p
+
+curltest2:
+	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/jump/ttt.i2p
