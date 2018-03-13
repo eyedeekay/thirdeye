@@ -98,27 +98,27 @@ func (jumpsite *jumpService) doJump(test string, w http.ResponseWriter, r *http.
 	for _, t := range jumpsite.getHosts() {
 		if len(t) == 2 {
 			if t[0] == test {
-                val := strings.SplitN(t[1], "#", 2)
-                line := "http://" + t[0] + "/?i2paddresshelper=" + val[0]
-                w.Header().Set("Location", line)
+				val := strings.SplitN(t[1], "#", 2)
+				line := "http://" + t[0] + "/?i2paddresshelper=" + val[0]
+				w.Header().Set("Location", line)
 				w.WriteHeader(301)
-                jumpsite.emitHeader(w, r)
+				jumpsite.emitHeader(w, r)
 				fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
-                fmt.Fprintln(w, "<pre><code>")
+				fmt.Fprintln(w, "<pre><code>")
 				fmt.Fprintln(w, "    ", line)
-                fmt.Fprintln(w, "</pre></code>")
-                jumpsite.emitFooter(w, r)
+				fmt.Fprintln(w, "</pre></code>")
+				jumpsite.emitFooter(w, r)
 				b = true
 				return b
 			}
 		}
 	}
-    if ! b {
-        w.WriteHeader(200)
-        jumpsite.emitHeader(w, r)
-        fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
-        jumpsite.emitFooter(w, r)
-    }
+	if !b {
+		w.WriteHeader(200)
+		jumpsite.emitHeader(w, r)
+		fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
+		jumpsite.emitFooter(w, r)
+	}
 	return b
 }
 
