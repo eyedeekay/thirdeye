@@ -82,15 +82,15 @@ func (updater *hostUpdater) sortHostList() [][]string {
 		tempHostList = append(tempHostList, updater.parseNl(string(dat))...)
 	}
 	sort.Strings(tempHostList)
-    var newHostList [][]string
-    newHostList = [][]string{[]string{}, []string{}}
+	var newHostList [][]string
+	newHostList = [][]string{[]string{}, []string{}}
 	for index, host := range tempHostList {
-		if index - 1 > 0 {
-			if !(host == tempHostList[index - 1]) {
+		if index-1 > 0 {
+			if !(host == tempHostList[index-1]) {
 				newHostList = append(newHostList, strings.SplitN(host, "=", 2))
-			}else{
-                updater.Log(host, tempHostList[index - 1])
-            }
+			} else {
+				updater.Log(host, tempHostList[index-1])
+			}
 		} else {
 			newHostList = append(newHostList, strings.SplitN(host, "=", 2))
 		}
@@ -126,10 +126,10 @@ func (updater *hostUpdater) hostUpdate() {
 		}
 		t--
 	}
-    updater.writeHostList()
-    updater.hostList = [][]string{nil, nil}
+	updater.writeHostList()
+	updater.hostList = [][]string{nil, nil}
 	updater.hostList = updater.sortHostList()
-    updater.writeHostList()
+	updater.writeHostList()
 	updater.Log("Updates complete.")
 }
 
@@ -194,7 +194,7 @@ func (updater *hostUpdater) Fatal(err error, s string) bool {
 
 func (updater *hostUpdater) loadHosts() [][]string {
 	dat, err := ioutil.ReadFile(updater.hostfile)
-    var hostlist [][]string
+	var hostlist [][]string
 	hostlist = [][]string{[]string{}, []string{}}
 	if !updater.Warn(err, "Error reading host file, may take a moment to start up.") {
 		updater.Log("Local host file read into slice")
@@ -218,8 +218,8 @@ func newHostUpdater(samhost string, samport string, retries int, upstream string
 	h.Log("Where to store hosts files: " + hostfile)
 	h.hostList = h.loadHosts()
 	h.retries = retries
-    h.writeHostList()
-    h.hostList = [][]string{nil, nil}
-    h.hostList = h.sortHostList()
+	h.writeHostList()
+	h.hostList = [][]string{nil, nil}
+	h.hostList = h.sortHostList()
 	return &h
 }

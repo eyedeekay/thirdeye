@@ -24,6 +24,10 @@ type jumpService struct {
 func (jumpsite *jumpService) initMux() *http.ServeMux {
 	mux := http.NewServeMux()
 
+    mux.HandleFunc("/index.html", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "Hello, you hit bar!")
+	})
+
 	mux.HandleFunc("/stats", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Hello, you hit bar!")
 	})
@@ -43,11 +47,11 @@ func (jumpsite *jumpService) initMux() *http.ServeMux {
 			if handle == 1 {
 				jumpsite.provideHosts(u[0], w, r)
 			} else if handle == 2 {
-                if u[0] == "jump" {
-                    jumpsite.handleJump(u[1], w, r)
-                }else if u[0] == "search" {
-                    jumpsite.handleSearch(u[1], w, r)
-                }
+				if u[0] == "jump" {
+					jumpsite.handleJump(u[1], w, r)
+				} else {
+					jumpsite.handleSearch(u[1], w, r)
+				}
 			}
 		}
 	})
@@ -104,12 +108,12 @@ func (jumpsite *jumpService) doSearch(test string, w http.ResponseWriter, r *htt
 			if t[0] == test {
 				val := strings.SplitN(t[1], "#", 2)
 				line := "http://" + t[0] + "/?i2paddresshelper=" + val[0]
-                w.WriteHeader(200)
+				w.WriteHeader(200)
 				fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
 				fmt.Fprintln(w, "<pre><code>")
 				fmt.Fprintln(w, "    ", line)
 				fmt.Fprintln(w, "</pre></code>")
-                fmt.Fprintln(w, "<a href=\"", line ,"\">")
+				fmt.Fprintln(w, "<a href=\"", line, "\">")
 				jumpsite.emitFooter(w, r)
 				b = true
 				return b
@@ -120,7 +124,7 @@ func (jumpsite *jumpService) doSearch(test string, w http.ResponseWriter, r *htt
 		w.WriteHeader(200)
 		jumpsite.emitHeader(w, r)
 		fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
-        fmt.Fprintln(w, "<h1>", "No results for:", test, "</h1>")
+		fmt.Fprintln(w, "<h1>", "No results for:", test, "</h1>")
 		jumpsite.emitFooter(w, r)
 	}
 	return b
@@ -150,7 +154,7 @@ func (jumpsite *jumpService) doJump(test string, w http.ResponseWriter, r *http.
 		w.WriteHeader(200)
 		jumpsite.emitHeader(w, r)
 		fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
-        fmt.Fprintln(w, "<h1>", "No results for:", test, "</h1>")
+		fmt.Fprintln(w, "<h1>", "No results for:", test, "</h1>")
 		jumpsite.emitFooter(w, r)
 	}
 	return b
@@ -187,9 +191,11 @@ func (jumpsite *jumpService) handle404(l int, s []string, w http.ResponseWriter,
 				return true, 1
 			}
 		} else {
-			w.WriteHeader(404)
-			fmt.Fprintln(w, r.URL.Path)
-			fmt.Fprintln(w, "You're lost, go home")
+			if s[1] != "" {
+				return true, l
+			} else {
+				return true, 1
+			}
 		}
 	} else {
 		w.WriteHeader(404)
@@ -264,8 +270,8 @@ func (jumpsite *jumpService) Serve() {
 
 func (jumpsite *jumpService) loadHosts() [][]string {
 	dat, err := ioutil.ReadFile(jumpsite.hostfile)
-    jumpsite.hostList = [][]string{nil, nil}
-    var hostlist [][]string
+	jumpsite.hostList = [][]string{nil, nil}
+	var hostlist [][]string
 	hostlist = [][]string{[]string{}, []string{}}
 	if !jumpsite.Warn(err, "Error reading host file, may take a moment to start up.") {
 		jumpsite.Log("Local host file read into slice")
