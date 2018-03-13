@@ -225,12 +225,14 @@ func (jumpsite *jumpService) Serve() {
 
 func (jumpsite *jumpService) loadHosts() [][]string {
 	dat, err := ioutil.ReadFile(jumpsite.hostfile)
-	//jumpsite.hostList = [][]string{[]string{}, []string{}}
+    jumpsite.hostList = [][]string{nil, nil}
+    var hostlist [][]string
+	hostlist = [][]string{[]string{}, []string{}}
 	if !jumpsite.Warn(err, "Error reading host file, may take a moment to start up.") {
 		jumpsite.Log("Local host file read into slice")
-		jumpsite.hostList = append(jumpsite.hostList, jumpsite.parseKvp(string(dat))...)
+		hostlist = append(hostlist, jumpsite.parseKvp(string(dat))...)
 	}
-	return jumpsite.hostList
+	return hostlist
 }
 
 func newJumpService(host string, port string, title string, desc string, hostfile string, logwl string) *jumpService {
@@ -249,7 +251,7 @@ func newJumpService(host string, port string, title string, desc string, hostfil
 	j.Log("Listening at: " + j.host + " At port: " + j.port)
 	log.Println("loading local jump service data:")
 	j.hostfile = hostfile
-	j.loadHosts()
+	j.hostList = j.loadHosts()
 	log.Println("Starting jump service web site: ", j.fullAddress())
 	return &j
 }

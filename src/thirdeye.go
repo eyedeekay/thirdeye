@@ -69,7 +69,7 @@ func main() {
 	go jumpService.Serve()
 	for true {
 		hostUpdater.hostUpdate()
-		jumpService.loadHosts()
+		jumpService.hostList = jumpService.loadHosts()
 		time.Sleep(wait)
 	}
 
