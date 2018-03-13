@@ -164,7 +164,7 @@ func (updater *hostUpdater) getHosts() [][]string {
 	return updater.hostList
 }
 
-func (updater *hostUpdater) Log(s string) {
+func (updater *hostUpdater) Log(s ...string) {
 	if loglevel > 2 {
 		log.Println(s)
 	}
