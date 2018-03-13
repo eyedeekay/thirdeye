@@ -69,7 +69,7 @@ func (updater *hostUpdater) writeHostList() error {
 func (updater *hostUpdater) parseNl(s string) []string {
 	hosts := []string{}
 	for index, host := range strings.Split(s, "\n") {
-		updater.Log(host)
+		//updater.Log(host)
 		if index-1 > 0 {
 			if host != hosts[index-1] {
 				hosts = append(hosts, host)
@@ -89,18 +89,18 @@ func (updater *hostUpdater) sortHostList() [][]string {
 		tempHostList = append(tempHostList, updater.parseNl(string(dat))...)
 	}
 	sort.Strings(tempHostList)
-	updater.hostList = nil
-	updater.hostList = [][]string{[]string{}, []string{}}
+    var newHostList [][]string
+    newHostList = [][]string{[]string{}, []string{}}
 	for index, host := range tempHostList {
-		if index-1 > 0 {
-			if !(host == tempHostList[index-1]) {
-				updater.hostList = append(updater.hostList, strings.SplitN(host, "=", 2))
+		if index - 1 > 0 {
+			if !(host == tempHostList[index - 1]) {
+				newHostList = append(newHostList, strings.SplitN(host, "=", 2))
 			}
 		} else {
-			updater.hostList = append(updater.hostList, strings.SplitN(host, "=", 2))
+			newHostList = append(newHostList, strings.SplitN(host, "=", 2))
 		}
 	}
-	return updater.hostList
+	return newHostList
 }
 
 func (updater *hostUpdater) hostUpdate() {

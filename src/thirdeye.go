@@ -20,7 +20,7 @@ func main() {
 	retries := flag.Int("retries", 2, "Number of attempts to fetch new hosts")
 	interval := flag.Int("interval", 6, "Hours between updatess")
 	newhosts := flag.String("newhosts", "http://stats.i2p/cgi-bin/newhosts.txt", "Fetch new hosts from here")
-	upstream := flag.String("upstream", "http://i2p2.i2p/hosts.txt,http://i2host.i2p/cgi-bin/i2hostetag", "Fetch more hosts from here")
+	upstream := flag.String("upstream", "http://i2p2.i2p/hosts.txt", "Fetch more hosts from here")
 	hostfile := flag.String("hostfile", "etc/thirdeye/localhosts.txt", "Local hosts file")
 	debug := flag.Bool("debug", false, "Print connection debug info")
 	verbosity := flag.Int("verbosity", 4, "Verbosity level: 0=Quiet 1=Fatal 2=Warning 3=Debug")
