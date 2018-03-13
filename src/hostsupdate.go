@@ -88,7 +88,9 @@ func (updater *hostUpdater) sortHostList() [][]string {
 		if index - 1 > 0 {
 			if !(host == tempHostList[index - 1]) {
 				newHostList = append(newHostList, strings.SplitN(host, "=", 2))
-			}
+			}else{
+                updater.Log(host, tempHostList[index - 1])
+            }
 		} else {
 			newHostList = append(newHostList, strings.SplitN(host, "=", 2))
 		}
@@ -216,7 +218,8 @@ func newHostUpdater(samhost string, samport string, retries int, upstream string
 	h.Log("Where to store hosts files: " + hostfile)
 	h.hostList = h.loadHosts()
 	h.retries = retries
+    h.writeHostList()
+    h.hostList = [][]string{nil, nil}
     h.hostList = h.sortHostList()
-	h.writeHostList()
 	return &h
 }
