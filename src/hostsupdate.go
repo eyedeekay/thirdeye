@@ -30,7 +30,7 @@ func (updater *hostUpdater) parseCsv(s string) []string {
 	return hosts
 }
 
-func exists(file string) bool, error{
+func exists(file string) (bool, error){
     if _, err := os.Stat(file); err == nil {
         return true, err
     }else{
