@@ -131,9 +131,10 @@ func (updater *hostUpdater) hostUpdate() {
 		}
 		t--
 	}
-	updater.writeHostList()
+    updater.writeHostList()
+    updater.hostList = nil
 	updater.hostList = updater.sortHostList()
-	updater.writeHostList()
+    updater.writeHostList()
 	updater.Log("Updates complete.")
 }
 
@@ -198,14 +199,13 @@ func (updater *hostUpdater) Fatal(err error, s string) bool {
 
 func (updater *hostUpdater) loadHosts() [][]string {
 	dat, err := ioutil.ReadFile(updater.hostfile)
-	updater.hostList = [][]string{[]string{}, []string{}}
+    var hostlist [][]string
+	hostlist = [][]string{[]string{}, []string{}}
 	if !updater.Warn(err, "Error reading host file, may take a moment to start up.") {
 		updater.Log("Local host file read into slice")
-		updater.hostList = append(updater.hostList, updater.parseKvp(string(dat))...)
+		hostlist = append(hostlist, updater.parseKvp(string(dat))...)
 	}
-	updater.sortHostList()
-	updater.writeHostList()
-	return updater.hostList
+	return hostlist
 }
 
 func newHostUpdater(samhost string, samport string, retries int, upstream string, parent string, hostfile string, debug bool) *hostUpdater {
@@ -221,7 +221,9 @@ func newHostUpdater(samhost string, samport string, retries int, upstream string
 	h.tryFirst = parent
 	h.hostfile = hostfile
 	h.Log("Where to store hosts files: " + hostfile)
-	h.loadHosts()
+	h.hostList = h.loadHosts()
 	h.retries = retries
+    h.sortHostList()
+	h.writeHostList()
 	return &h
 }
