@@ -45,7 +45,7 @@ func (jumpsite *jumpService) initMux() *http.ServeMux {
 			} else if handle == 2 {
                 if u[0] == "jump" {
                     jumpsite.handleJump(u[1], w, r)
-                }else{
+                }else if u[0] == "search" {
                     jumpsite.handleSearch(u[1], w, r)
                 }
 			}
