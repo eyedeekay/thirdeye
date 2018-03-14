@@ -312,6 +312,8 @@ func (jumpsite *jumpService) loadCSS() string {
         jumpsite.Log(string(dat))
 		return string(dat)
 	} else {
+        jumpsite.Log("Error loading CSS", jumpsite.cssFile)
+        log.Println(err)
 		return "\n"
 	}
 }
@@ -321,6 +323,8 @@ func (jumpsite *jumpService) loadICO() []byte {
 	if err == nil {
 		return dat
 	} else {
+        jumpsite.Log("Error loading icon", jumpsite.cssFile)
+        log.Println(err)
 		return nil
 	}
 }
