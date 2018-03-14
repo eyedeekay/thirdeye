@@ -257,7 +257,7 @@ func (jumpsite *jumpService) fullAddress() string {
 	return jumpsite.host + ":" + jumpsite.port
 }
 
-func (jumpsite *jumpService) Log(s string) {
+func (jumpsite *jumpService) Log(s ...string) {
 	if loglevel > 2 {
 		log.Println("LOG: ", s)
 	}
