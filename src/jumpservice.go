@@ -357,14 +357,13 @@ func newJumpService(host string, port string, title string, desc string, hostfil
 	j.Log("setting port: " + port)
 	j.mux = j.initMux()
 	j.Log("Listening at: " + j.host + " At port: " + j.port)
-	log.Println("loading local jump service data:")
     j.cssFile = cssfile
     j.Log("Loading CSS: " j.cssFile)
     j.css = j.loadCSS()
-    j.Log("Loading ICO: " j.iconFile)
     j.iconFile = icofile
+    j.Log("Loading ICO: " j.iconFile)
 	j.icon = j.loadICO()
-
+    j.Log("loading local jump service data:")
     j.hostfile = hostfile
 	j.hostList = j.loadHosts()
 
