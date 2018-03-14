@@ -109,3 +109,8 @@ curltest5:
 curltest6:
 	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/favicon.ico
 
+firefox:
+	iceweasel http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/index.html
+
+firejump:
+	iceweasel http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/search/ttt.i2p

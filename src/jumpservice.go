@@ -120,7 +120,7 @@ func (jumpsite *jumpService) doSearch(test string, w http.ResponseWriter, r *htt
 				fmt.Fprintln(w, "<pre><code>")
 				fmt.Fprintln(w, "    ", line)
 				fmt.Fprintln(w, "</pre></code>")
-				fmt.Fprintln(w, "<a href=\"", line, "\">")
+				fmt.Fprintln(w, "<a href=\"", line, "\">", line, "</a>")
 				jumpsite.emitFooter(w, r)
 				b = true
 				return b
