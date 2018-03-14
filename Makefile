@@ -20,7 +20,11 @@ clean:
 	rm -f bin/thirdeye
 
 release:
-	go build -a -buildmode=pie -o bin/thirdeye src/*
+	GOOS=linux GOARCH=amd64 go build -a -o bin/thirdeye \
+		-tags netgo \
+		-buildmode=pie \
+		-ldflags '-w -extldflags "-static"' \
+		./src
 
 docker-network:
 	docker network create thirdeye; true
