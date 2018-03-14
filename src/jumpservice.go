@@ -342,9 +342,9 @@ func newJumpService(host string, port string, title string, desc string, hostfil
 	j.hostfile = hostfile
 	j.hostList = j.loadHosts()
 	j.iconFile = icofile
+    j.cssFile = cssfile
 	j.css = j.loadCSS()
 	j.icon = j.loadICO()
-	j.cssFile = cssfile
 	log.Println("Starting jump service web site: ", j.fullAddress())
 	return &j
 }
