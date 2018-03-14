@@ -217,6 +217,7 @@ func (jumpsite *jumpService) handleIndex(w http.ResponseWriter, r *http.Request)
 
 func (jumpsite *jumpService) handleCSS(w http.ResponseWriter, r *http.Request) bool {
 	if jumpsite.css != "\n" {
+        w.Header().Set("Content-Type", "text/css")
 		w.WriteHeader(200)
 		fmt.Fprintln(w, jumpsite.css)
 	} else {
@@ -228,6 +229,7 @@ func (jumpsite *jumpService) handleCSS(w http.ResponseWriter, r *http.Request) b
 
 func (jumpsite *jumpService) handleICO(w http.ResponseWriter, r *http.Request) bool {
 	if jumpsite.icon != nil {
+        w.Header().Set("Content-Type", "image/x-icon")
 		w.WriteHeader(200)
 		fmt.Fprintln(w, jumpsite.icon)
 	} else {
@@ -343,7 +345,6 @@ func (jumpsite *jumpService) loadCSS() string {
 	dat, err := ioutil.ReadFile(jumpsite.cssFile)
 	if err == nil {
 		jumpsite.Log("Loaded CSS", jumpsite.cssFile)
-		jumpsite.Log(string(dat))
 		return string(dat)
 	} else {
 		jumpsite.Log("Error loading CSS", jumpsite.cssFile)
