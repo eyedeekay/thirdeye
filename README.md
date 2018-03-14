@@ -1,5 +1,5 @@
-Ridiculously Easy i2p Jump Service(A sort of slave DNS for p2p networks)
-========================================================================
+Ridiculously Easy i2p Jump Service
+==================================
 
 This is an i2p Address Helper/Jump service implementation, basically cloned
 from the already available one from
