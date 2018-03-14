@@ -13,8 +13,13 @@ type jumpService struct {
 	desc     string
 	host     string
 	port     string
+	css      string
+	icon     []byte
 	logwl    string
 	hostfile string
+
+	cssFile  string
+	iconFile string
 
 	serverErr error
 	mux       *http.ServeMux
@@ -24,8 +29,8 @@ type jumpService struct {
 func (jumpsite *jumpService) initMux() *http.ServeMux {
 	mux := http.NewServeMux()
 
-    mux.HandleFunc("/index.html", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello, you hit bar!")
+	mux.HandleFunc("/index.html", func(w http.ResponseWriter, r *http.Request) {
+		jumpsite.handleIndex(w, r)
 	})
 
 	mux.HandleFunc("/stats", func(w http.ResponseWriter, r *http.Request) {
@@ -33,11 +38,11 @@ func (jumpsite *jumpService) initMux() *http.ServeMux {
 	})
 
 	mux.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello, you hit favicon.ico!")
+		jumpsite.handleICO(w, r)
 	})
 
 	mux.HandleFunc("/style.css", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello, you hit style.css!")
+		jumpsite.handleCSS(w, r)
 	})
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -180,6 +185,25 @@ func (jumpsite *jumpService) handleSearch(s string, w http.ResponseWriter, r *ht
 	return true
 }
 
+func (jumpsite *jumpService) handleIndex(w http.ResponseWriter, r *http.Request) bool {
+	jumpsite.emitHeader(w, r)
+	fmt.Fprintln(w, "<p>Hello Thirdeye</p>")
+	jumpsite.emitFooter(w, r)
+	return true
+}
+
+func (jumpsite *jumpService) handleCSS(w http.ResponseWriter, r *http.Request) bool {
+	fmt.Fprintln(w, jumpsite.css)
+	return true
+}
+
+func (jumpsite *jumpService) handleICO(w http.ResponseWriter, r *http.Request) bool {
+	if jumpsite.icon != nil {
+		fmt.Fprintln(w, jumpsite.icon)
+	}
+	return true
+}
+
 func (jumpsite *jumpService) handle404(l int, s []string, w http.ResponseWriter, r *http.Request) (bool, int) {
 	if l == 1 {
 		return true, l
@@ -280,7 +304,25 @@ func (jumpsite *jumpService) loadHosts() [][]string {
 	return hostlist
 }
 
-func newJumpService(host string, port string, title string, desc string, hostfile string, logwl string) *jumpService {
+func (jumpsite *jumpService) loadCSS() string {
+	dat, err := ioutil.ReadFile(jumpsite.cssFile)
+	if err == nil {
+		return string(dat)
+	} else {
+		return "\n"
+	}
+}
+
+func (jumpsite *jumpService) loadICO() []byte {
+	dat, err := ioutil.ReadFile(jumpsite.iconFile)
+	if err == nil {
+		return dat
+	} else {
+		return nil
+	}
+}
+
+func newJumpService(host string, port string, title string, desc string, hostfile string, logwl string, cssfile string, icofile string) *jumpService {
 	var j jumpService
 	j.logwl = logwl
 	j.Log("setting log whitelist: ")
@@ -297,6 +339,10 @@ func newJumpService(host string, port string, title string, desc string, hostfil
 	log.Println("loading local jump service data:")
 	j.hostfile = hostfile
 	j.hostList = j.loadHosts()
+	j.iconFile = icofile
+	j.css = j.loadCSS()
+	j.icon = j.loadICO()
+	j.cssFile = cssfile
 	log.Println("Starting jump service web site: ", j.fullAddress())
 	return &j
 }

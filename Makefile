@@ -95,3 +95,9 @@ curltest2:
 
 curltest3:
 	/usr/bin/curl -v -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/search/ttt.i2p
+
+curltest4:
+	/usr/bin/curl -v -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/index.html
+
+curltest5:
+	/usr/bin/curl -v -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/style.css
