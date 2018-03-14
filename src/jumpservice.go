@@ -200,7 +200,9 @@ func (jumpsite *jumpService) handleCSS(w http.ResponseWriter, r *http.Request) b
 func (jumpsite *jumpService) handleICO(w http.ResponseWriter, r *http.Request) bool {
 	if jumpsite.icon != nil {
 		fmt.Fprintln(w, jumpsite.icon)
-	}
+	}else{
+        fmt.Fprintln(w, "")
+    }
 	return true
 }
 
