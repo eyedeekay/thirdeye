@@ -50,7 +50,17 @@ func (jumpsite *jumpService) initMux() *http.ServeMux {
 		l := len(u)
 		if test, handle := jumpsite.handle404(l, u, w, r); test {
 			if handle == 1 {
+                if u[0] == "/" {
+					jumpsite.handleIndex(w, r)
+				}else if u[0] == "" {
+                    jumpsite.handleIndex(w, r)
+                }else if u[0] == "index" {
+                    jumpsite.handleIndex(w, r)
+                }else if u[0] == "index.html" {
+                    jumpsite.handleIndex(w, r)
+                }else{
 				jumpsite.provideHosts(u[0], w, r)
+                }
 			} else if handle == 2 {
 				if u[0] == "jump" {
 					jumpsite.handleJump(u[1], w, r)
@@ -189,7 +199,18 @@ func (jumpsite *jumpService) handleSearch(s string, w http.ResponseWriter, r *ht
 
 func (jumpsite *jumpService) handleIndex(w http.ResponseWriter, r *http.Request) bool {
 	jumpsite.emitHeader(w, r)
-	fmt.Fprintln(w, "<p>Hello Thirdeye</p>")
+    fmt.Fprintln(w, "<h1>Hello Thirdeye</h1>")
+	fmt.Fprintln(w, "<p>Thirdeye is a tiny, easy-to-selfhost i2p jump service")
+    fmt.Fprintln(w, "written in go for fun. To search the addressbook, go to")
+    fmt.Fprintln(w, "</p>")
+    fmt.Fprintln(w, "<pre><code>http://thirdeye_url.i2p/search/desired_url.i2p</pre></code>")
+    fmt.Fprintln(w, "<p>or to be immediately redirected, go to</p>")
+    fmt.Fprintln(w, "<pre><code>http://thirdeye_url.i2p/search/desired_url.i2p</pre></code>")
+    fmt.Fprintln(w, "<p>to retrieve hosts, any 1-length path will do. For")
+    fmt.Fprintln(w, "instance, just appending /hosts to the domain:</p>")
+    fmt.Fprintln(w, "<pre><code>http://thirdeye_url.i2p/hosts</pre></code>")
+    fmt.Fprintln(w, "<p>You may have been given a special URL to use for this.")
+    fmt.Fprintln(w, "</p>")
 	jumpsite.emitFooter(w, r)
 	return true
 }
