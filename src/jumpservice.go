@@ -54,15 +54,15 @@ func (jumpsite *jumpService) initMux() *http.ServeMux {
 					jumpsite.handleIndex(w, r)
 				} else if u[0] == "" {
 					jumpsite.handleIndex(w, r)
-				} else if u[0] == "index" {
+				} else if strings.Contains(u[0], "index") {
 					jumpsite.handleIndex(w, r)
-				} else if u[0] == "index.html" {
+				} else if strings.Contains(u[0], "index.html") {
 					jumpsite.handleIndex(w, r)
 				} else {
 					jumpsite.provideHosts(u[0], w, r)
 				}
 			} else if handle == 2 {
-				if u[0] == "jump" {
+				if strings.Contains(u[0], "jump") {
 					jumpsite.handleJump(u[1], w, r)
 				} else {
 					jumpsite.handleSearch(u[1], w, r)
