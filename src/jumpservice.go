@@ -321,7 +321,7 @@ func (jumpsite *jumpService) loadHosts() [][]string {
 func (jumpsite *jumpService) loadCSS() string {
 	dat, err := ioutil.ReadFile(jumpsite.cssFile)
 	if err == nil {
-        jumpsite.Log("Loading CSS", jumpsite.cssFile)
+        jumpsite.Log("Loaded CSS", jumpsite.cssFile)
         jumpsite.Log(string(dat))
 		return string(dat)
 	} else {
@@ -334,7 +334,7 @@ func (jumpsite *jumpService) loadCSS() string {
 func (jumpsite *jumpService) loadICO() []byte {
 	dat, err := ioutil.ReadFile(jumpsite.iconFile)
 	if err == nil {
-        jumpsite.Log("Loading icon", jumpsite.iconFile)
+        jumpsite.Log("Loaded icon", jumpsite.iconFile)
 		return dat
 	} else {
         jumpsite.Log("Error loading icon", jumpsite.iconFile)
@@ -359,8 +359,9 @@ func newJumpService(host string, port string, title string, desc string, hostfil
 	j.Log("Listening at: " + j.host + " At port: " + j.port)
 	log.Println("loading local jump service data:")
     j.cssFile = cssfile
+    j.Log("Loading CSS: " j.cssFile)
     j.css = j.loadCSS()
-
+    j.Log("Loading ICO: " j.iconFile)
     j.iconFile = icofile
 	j.icon = j.loadICO()
 
