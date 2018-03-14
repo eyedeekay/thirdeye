@@ -1,1 +1,4 @@
+bin/thirdeye
 i2pd_dat
+network
+*log*
