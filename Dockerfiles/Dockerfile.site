@@ -12,4 +12,7 @@ WORKDIR /home/jump
 RUN go get -u github.com/eyedeekay/gosam
 RUN make release
 USER jump
-CMD ./bin/thirdeye -samhost=thirdeye-host -host=thirdeye-site
+CMD ./bin/thirdeye -samhost=thirdeye-host \
+    -host=thirdeye-site \
+    -cssfile=/home/jump/etc/thirdeye/style.css \
+    -icofile=/home/jump/etc/thirdeye/favicon.ico

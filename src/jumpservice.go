@@ -193,14 +193,22 @@ func (jumpsite *jumpService) handleIndex(w http.ResponseWriter, r *http.Request)
 }
 
 func (jumpsite *jumpService) handleCSS(w http.ResponseWriter, r *http.Request) bool {
-	fmt.Fprintln(w, jumpsite.css)
+    if jumpsite.css != "\n" {
+        w.WriteHeader(200)
+        fmt.Fprintln(w, jumpsite.css)
+    }else{
+        w.WriteHeader(200)
+        fmt.Fprintln(w, "")
+    }
 	return true
 }
 
 func (jumpsite *jumpService) handleICO(w http.ResponseWriter, r *http.Request) bool {
 	if jumpsite.icon != nil {
+        w.WriteHeader(200)
 		fmt.Fprintln(w, jumpsite.icon)
 	}else{
+        w.WriteHeader(200)
         fmt.Fprintln(w, "")
     }
 	return true
