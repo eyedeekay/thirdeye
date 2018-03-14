@@ -108,8 +108,8 @@ func (jumpsite *jumpService) checkWhiteList(s string) bool {
 }
 
 func (jumpsite *jumpService) hosts(w http.ResponseWriter, r *http.Request) bool {
+    jumpsite.length()
 	for _, t := range jumpsite.getHosts() {
-		log.Println(len(t))
 		if len(t) == 2 {
 			line := t[0] + "=" + t[1]
 			fmt.Fprintln(w, line)
