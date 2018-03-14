@@ -57,7 +57,9 @@ func (jumpsite *jumpService) initMux() *http.ServeMux {
 				} else {
 					jumpsite.handleSearch(u[1], w, r)
 				}
-			}
+			}else{
+                jumpsite.handleIndex(w, r)
+            }
 		}
 	})
 	return mux
