@@ -57,9 +57,9 @@ func (jumpsite *jumpService) initMux() *http.ServeMux {
 				} else {
 					jumpsite.handleSearch(u[1], w, r)
 				}
-			}else{
-                jumpsite.handleIndex(w, r)
-            }
+			} else {
+				jumpsite.handleIndex(w, r)
+			}
 		}
 	})
 	return mux
@@ -195,24 +195,24 @@ func (jumpsite *jumpService) handleIndex(w http.ResponseWriter, r *http.Request)
 }
 
 func (jumpsite *jumpService) handleCSS(w http.ResponseWriter, r *http.Request) bool {
-    if jumpsite.css != "\n" {
-        w.WriteHeader(200)
-        fmt.Fprintln(w, jumpsite.css)
-    }else{
-        w.WriteHeader(200)
-        fmt.Fprintln(w, "")
-    }
+	if jumpsite.css != "\n" {
+		w.WriteHeader(200)
+		fmt.Fprintln(w, jumpsite.css)
+	} else {
+		w.WriteHeader(200)
+		fmt.Fprintln(w, "")
+	}
 	return true
 }
 
 func (jumpsite *jumpService) handleICO(w http.ResponseWriter, r *http.Request) bool {
 	if jumpsite.icon != nil {
-        w.WriteHeader(200)
+		w.WriteHeader(200)
 		fmt.Fprintln(w, jumpsite.icon)
-	}else{
-        w.WriteHeader(200)
-        fmt.Fprintln(w, "")
-    }
+	} else {
+		w.WriteHeader(200)
+		fmt.Fprintln(w, "")
+	}
 	return true
 }
 
@@ -313,7 +313,7 @@ func (jumpsite *jumpService) loadHosts() [][]string {
 		jumpsite.Log("Local host file read into slice")
 		hostlist = append(hostlist, jumpsite.parseKvp(string(dat))...)
 	}
-    jumpsite.css = jumpsite.loadCSS()
+	jumpsite.css = jumpsite.loadCSS()
 	jumpsite.icon = jumpsite.loadICO()
 	return hostlist
 }
@@ -321,12 +321,12 @@ func (jumpsite *jumpService) loadHosts() [][]string {
 func (jumpsite *jumpService) loadCSS() string {
 	dat, err := ioutil.ReadFile(jumpsite.cssFile)
 	if err == nil {
-        jumpsite.Log("Loaded CSS", jumpsite.cssFile)
-        jumpsite.Log(string(dat))
+		jumpsite.Log("Loaded CSS", jumpsite.cssFile)
+		jumpsite.Log(string(dat))
 		return string(dat)
 	} else {
-        jumpsite.Log("Error loading CSS", jumpsite.cssFile)
-        log.Println(err)
+		jumpsite.Log("Error loading CSS", jumpsite.cssFile)
+		log.Println(err)
 		return "\n"
 	}
 }
@@ -334,11 +334,11 @@ func (jumpsite *jumpService) loadCSS() string {
 func (jumpsite *jumpService) loadICO() []byte {
 	dat, err := ioutil.ReadFile(jumpsite.iconFile)
 	if err == nil {
-        jumpsite.Log("Loaded icon", jumpsite.iconFile)
+		jumpsite.Log("Loaded icon", jumpsite.iconFile)
 		return dat
 	} else {
-        jumpsite.Log("Error loading icon", jumpsite.iconFile)
-        log.Println(err)
+		jumpsite.Log("Error loading icon", jumpsite.iconFile)
+		log.Println(err)
 		return nil
 	}
 }
@@ -357,14 +357,14 @@ func newJumpService(host string, port string, title string, desc string, hostfil
 	j.Log("setting port: " + port)
 	j.mux = j.initMux()
 	j.Log("Listening at: " + j.host + " At port: " + j.port)
-    j.cssFile = cssfile
-    j.Log("Loading CSS: ", j.cssFile)
-    j.css = j.loadCSS()
-    j.iconFile = icofile
-    j.Log("Loading ICO: ", j.iconFile)
+	j.cssFile = cssfile
+	j.Log("Loading CSS: ", j.cssFile)
+	j.css = j.loadCSS()
+	j.iconFile = icofile
+	j.Log("Loading ICO: ", j.iconFile)
 	j.icon = j.loadICO()
-    j.hostfile = hostfile
-    j.Log("loading local jump service data:")
+	j.hostfile = hostfile
+	j.Log("loading local jump service data:")
 	j.hostList = j.loadHosts()
 	log.Println("Starting jump service web site: ", j.fullAddress())
 	return &j

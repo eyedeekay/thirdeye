@@ -24,7 +24,7 @@ func main() {
 
 	hostfile := flag.String("hostfile", "etc/thirdeye/localhosts.txt", "Local hosts file")
 
-    cssfile := flag.String("cssfile", "etc/thirdeye/style.css", "Local css file")
+	cssfile := flag.String("cssfile", "etc/thirdeye/style.css", "Local css file")
 
 	icofile := flag.String("icofile", "etc/thirdeye/favicon.ico", "Local favicon file")
 
@@ -74,9 +74,9 @@ func main() {
 		Title,
 		Description,
 		HostFile,
+		LogWhiteList,
 		CssFile,
-		IconFile,
-		LogWhiteList)
+		IconFile)
 	go jumpService.Serve()
 	for true {
 		hostUpdater.hostUpdate()
