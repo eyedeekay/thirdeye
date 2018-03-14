@@ -309,6 +309,7 @@ func (jumpsite *jumpService) loadHosts() [][]string {
 func (jumpsite *jumpService) loadCSS() string {
 	dat, err := ioutil.ReadFile(jumpsite.cssFile)
 	if err == nil {
+        jumpsite.Log(string(dat))
 		return string(dat)
 	} else {
 		return "\n"
