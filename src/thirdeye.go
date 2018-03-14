@@ -22,8 +22,8 @@ func main() {
 	newhosts := flag.String("newhosts", "http://stats.i2p/cgi-bin/newhosts.txt", "Fetch new hosts from here")
 	upstream := flag.String("upstream", "http://i2p2.i2p/hosts.txt", "Fetch more hosts from here")
 	hostfile := flag.String("hostfile", "etc/thirdeye/localhosts.txt", "Local hosts file")
-	cssfile := flag.String("cssfile", "etc/thirdeye/style.css", "Local hosts file")
-	icofile := flag.String("icofile", "etc/thirdeye/favicon.ico", "Local hosts file")
+	cssfile := flag.String("cssfile", "etc/thirdeye/style.css", "Local css file")
+	icofile := flag.String("icofile", "etc/thirdeye/favicon.ico", "Local favicon file")
 	debug := flag.Bool("debug", false, "Print connection debug info")
 	verbosity := flag.Int("verbosity", 4, "Verbosity level: 0=Quiet 1=Fatal 2=Warning 3=Debug")
 
