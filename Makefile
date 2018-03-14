@@ -95,10 +95,10 @@ curltest:
 	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p
 
 curltest2:
-	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/jump/ttt.i2p
+	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/jump/i2pforum.i2p
 
 curltest3:
-	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/search/ttt.i2p
+	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/search/i2pforum.i2p
 
 curltest4:
 	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/index.html
@@ -112,5 +112,8 @@ curltest6:
 firefox:
 	iceweasel http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/index.html
 
+firesearch:
+	iceweasel http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/search/i2pforum.i2p
+
 firejump:
-	iceweasel http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/search/ttt.i2p
+	iceweasel http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/search/i2pforum.i2p
