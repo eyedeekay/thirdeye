@@ -313,8 +313,8 @@ func (jumpsite *jumpService) loadHosts() [][]string {
 		jumpsite.Log("Local host file read into slice")
 		hostlist = append(hostlist, jumpsite.parseKvp(string(dat))...)
 	}
-    j.css = j.loadCSS()
-	j.icon = j.loadICO()
+    jumpsite.css = jumpsite.loadCSS()
+	jumpsite.icon = jumpsite.loadICO()
 	return hostlist
 }
 
@@ -358,10 +358,9 @@ func newJumpService(host string, port string, title string, desc string, hostfil
 	j.mux = j.initMux()
 	j.Log("Listening at: " + j.host + " At port: " + j.port)
 	log.Println("loading local jump service data:")
-
-	j.iconFile = icofile
     j.cssFile = cssfile
     j.css = j.loadCSS()
+    j.iconFile = icofile
 	j.icon = j.loadICO()
     j.hostfile = hostfile
 	j.hostList = j.loadHosts()
