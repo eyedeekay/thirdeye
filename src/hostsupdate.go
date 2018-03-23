@@ -29,14 +29,6 @@ func (updater *hostUpdater) parseCsv(s string) []string {
 	return hosts
 }
 
-func exists(file string) (bool, error) {
-	if _, err := os.Stat(file); err == nil {
-		return true, err
-	} else {
-		return false, err
-	}
-}
-
 func (updater *hostUpdater) parseKvp(s string) [][]string {
 	hosts := &[][]string{}
 	for _, host := range strings.Split(s, "\n") {
