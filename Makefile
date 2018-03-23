@@ -53,6 +53,8 @@ clean-site:
 clean-host:
 	docker rm -f thirdeye-host; true
 
+clobber: clean clean-build clobber-build
+
 clobber-build: clobber-site clobber-host
 
 clobber-site:

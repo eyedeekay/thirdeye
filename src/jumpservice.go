@@ -182,7 +182,7 @@ func (jumpsite *jumpService) provideHosts(s string, w http.ResponseWriter, r *ht
 		jumpsite.hosts(w, r)
 	} else {
 		jumpsite.hosts(w, r)
-		jumpsite.Log("Hosts were requested across the following URL " + s)
+		Log("Hosts were requested across the following URL " + s)
 	}
 	return true
 }
@@ -279,7 +279,7 @@ func (jumpsite *jumpService) parseKvp(s string) [][]string {
 	for _, host := range strings.Split(s, "\n") {
 		kv := strings.SplitN(host, "=", 2)
 		if len(kv) == 2 {
-			jumpsite.Log(kv[0])
+			Log(kv[0])
 			*hosts = append(*hosts, kv)
 		}
 	}
@@ -290,39 +290,11 @@ func (jumpsite *jumpService) fullAddress() string {
 	return jumpsite.host + ":" + jumpsite.port
 }
 
-func (jumpsite *jumpService) Log(s ...string) {
-	if loglevel > 2 {
-		log.Println("LOG: ", s)
-	}
-}
-
-func (jumpsite *jumpService) Warn(err error, s string) bool {
-	if loglevel > 1 {
-		if err != nil {
-			log.Println("WARN: ", s)
-			return true
-		}
-		return false
-	}
-	return false
-}
-
-func (jumpsite *jumpService) Fatal(err error, s string) bool {
-	if loglevel > 0 {
-		if err != nil {
-			log.Println("FATAL: ", s)
-			return true
-		}
-		return false
-	}
-	return false
-}
-
 func (jumpsite *jumpService) Serve() {
-	jumpsite.Log("Initializing handler handle")
+	Log("Initializing handler handle")
 	jumpsite.length()
 	if err := http.ListenAndServe(jumpsite.fullAddress(), jumpsite.mux); err != nil {
-		jumpsite.Warn(err, "Fatal Error: server not started")
+		Warn(err, "Fatal Error: server not started")
 		jumpsite.serverErr = err
 	}
 }
@@ -332,8 +304,8 @@ func (jumpsite *jumpService) loadHosts() [][]string {
 	jumpsite.hostList = [][]string{nil, nil}
 	var hostlist [][]string
 	hostlist = [][]string{[]string{}, []string{}}
-	if !jumpsite.Warn(err, "Error reading host file, may take a moment to start up.") {
-		jumpsite.Log("Local host file read into slice")
+	if !Warn(err, "Error reading host file, may take a moment to start up.") {
+		Log("Local host file read into slice")
 		hostlist = append(hostlist, jumpsite.parseKvp(string(dat))...)
 	}
 	jumpsite.css = jumpsite.loadCSS()
@@ -344,10 +316,10 @@ func (jumpsite *jumpService) loadHosts() [][]string {
 func (jumpsite *jumpService) loadCSS() string {
 	dat, err := ioutil.ReadFile(jumpsite.cssFile)
 	if err == nil {
-		jumpsite.Log("Loaded CSS", jumpsite.cssFile)
+		Log("Loaded CSS", jumpsite.cssFile)
 		return string(dat)
 	} else {
-		jumpsite.Log("Error loading CSS", jumpsite.cssFile)
+		Log("Error loading CSS", jumpsite.cssFile)
 		log.Println(err)
 		return "\n"
 	}
@@ -356,10 +328,10 @@ func (jumpsite *jumpService) loadCSS() string {
 func (jumpsite *jumpService) loadICO() []byte {
 	dat, err := ioutil.ReadFile(jumpsite.iconFile)
 	if err == nil {
-		jumpsite.Log("Loaded icon", jumpsite.iconFile)
+		Log("Loaded icon", jumpsite.iconFile)
 		return dat
 	} else {
-		jumpsite.Log("Error loading icon", jumpsite.iconFile)
+		Log("Error loading icon", jumpsite.iconFile)
 		log.Println(err)
 		return nil
 	}
@@ -368,25 +340,25 @@ func (jumpsite *jumpService) loadICO() []byte {
 func newJumpService(host string, port string, title string, desc string, hostfile string, logwl string, cssfile string, icofile string) *jumpService {
 	var j jumpService
 	j.logwl = logwl
-	j.Log("setting log whitelist: ")
+	Log("setting log whitelist: ")
 	j.title = title
-	j.Log("setting title: " + j.title)
+	Log("setting title: " + j.title)
 	j.desc = desc
-	j.Log("setting description: " + j.desc)
+	Log("setting description: " + j.desc)
 	j.host = host
-	j.Log("setting host: " + host)
+	Log("setting host: " + host)
 	j.port = port
-	j.Log("setting port: " + port)
+	Log("setting port: " + port)
 	j.mux = j.initMux()
-	j.Log("Listening at: " + j.host + " At port: " + j.port)
+	Log("Listening at: " + j.host + " At port: " + j.port)
 	j.cssFile = cssfile
-	j.Log("Loading CSS: ", j.cssFile)
+	Log("Loading CSS: ", j.cssFile)
 	j.css = j.loadCSS()
 	j.iconFile = icofile
-	j.Log("Loading ICO: ", j.iconFile)
+	Log("Loading ICO: ", j.iconFile)
 	j.icon = j.loadICO()
 	j.hostfile = hostfile
-	j.Log("loading local jump service data:")
+	Log("loading local jump service data:")
 	j.hostList = j.loadHosts()
 	log.Println("Starting jump service web site: ", j.fullAddress())
 	return &j

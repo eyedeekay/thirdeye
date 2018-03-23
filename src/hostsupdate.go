@@ -3,12 +3,11 @@ package main
 import (
 	"github.com/eyedeekay/gosam"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"sort"
 	"strings"
-	"time"
+//	"time"
 )
 
 type hostUpdater struct {
@@ -55,7 +54,7 @@ func (updater *hostUpdater) writeHostList() error {
 		os.Remove(updater.hostfile)
 	}
 	f, err := os.Create(updater.hostfile)
-	updater.Fatal(err, "File I/O errors")
+	Fatal(err, "File I/O errors")
 	defer f.Close()
 	for _, t := range updater.hostList {
 		if len(t) == 2 {
@@ -77,8 +76,8 @@ func (updater *hostUpdater) parseNl(s string) []string {
 func (updater *hostUpdater) sortHostList() [][]string {
 	dat, err := ioutil.ReadFile(updater.hostfile)
 	tempHostList := []string{}
-	if !updater.Warn(err, "Error reading host file, may take a moment to start up.") {
-		updater.Log("Local host file read into slice")
+	if !Warn(err, "Error reading host file, may take a moment to start up.") {
+		Log("Local host file read into slice")
 		tempHostList = append(tempHostList, updater.parseNl(string(dat))...)
 	}
 	sort.Strings(tempHostList)
@@ -89,7 +88,7 @@ func (updater *hostUpdater) sortHostList() [][]string {
 			if !(host == tempHostList[index-1]) {
 				newHostList = append(newHostList, strings.SplitN(host, "=", 2))
 			} else {
-				updater.Log(host, tempHostList[index-1])
+				Log(host, tempHostList[index-1])
 			}
 		} else {
 			newHostList = append(newHostList, strings.SplitN(host, "=", 2))
@@ -98,60 +97,51 @@ func (updater *hostUpdater) sortHostList() [][]string {
 	return newHostList
 }
 
+func (updater *hostUpdater) pullUpdate(url string) [][]string{
+    t := updater.retries
+    var hostList string
+    for t >= 1 {
+		Log("Getting updates from new host providers.")
+		for _, u := range updater.parseCsv(url) {
+			if done, h := updater.get(u); done {
+				hostList += h + "\n"
+				//updater.hostList = append(updater.hostList, updater.parseKvp(hostList)...)
+                return append(updater.hostList, updater.parseKvp(hostList)...)
+			}
+		}
+		t--
+	}
+    return updater.hostList
+}
+
 func (updater *hostUpdater) hostUpdate() {
-	t := updater.retries
-	var hostList string
-	for t >= 1 {
-		updater.Log("Getting updates from new host providers.")
-		for _, u := range updater.parseCsv(updater.tryFirst) {
-			if done, h := updater.get(u); done {
-				hostList += h + "\n"
-				updater.hostList = append(updater.hostList, updater.parseKvp(hostList)...)
-				break
-			}
-			time.Sleep(time.Duration(1) * time.Second)
-		}
-		t--
-	}
-	t = updater.retries
-	for t >= 1 {
-		updater.Log("Getting updates from upstream host providers.")
-		for _, u := range updater.parseCsv(updater.parentList) {
-			if done, h := updater.get(u); done {
-				hostList += h + "\n"
-				updater.hostList = append(updater.hostList, updater.parseKvp(hostList)...)
-				break
-			}
-			time.Sleep(time.Duration(1) * time.Second)
-		}
-		t--
-	}
+    updater.hostList = updater.pullUpdate(updater.tryFirst)
+	updater.hostList = updater.pullUpdate(updater.parentList)
 	updater.writeHostList()
 	updater.hostList = [][]string{nil, nil}
 	updater.hostList = updater.sortHostList()
 	updater.writeHostList()
-	updater.Log("Updates complete.")
+	Log("Updates complete.")
 }
 
 func (updater *hostUpdater) get(s string) (bool, string) {
+    //var samBridgeClient *goSam.Client
 	tr := &http.Transport{
 		Dial: updater.samBridgeClient.Dial,
 	}
 
-	updater.Log("Fetching updates from: " + s)
+	Log("Fetching updates from: " + s)
 
 	client := &http.Client{Transport: tr}
-
 	resp, err := client.Get(s)
 
 	r := ""
-
 	t := false
 
-	if !updater.Warn(err, "Updater Error: "+s+" ") {
+	if !Warn(err, "Updater Error: "+s+" ") {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
-		if !updater.Warn(err, "Response error: ") {
+		if !Warn(err, "Response error: ") {
 			r += string(body)
 			t = true
 		}
@@ -164,40 +154,12 @@ func (updater *hostUpdater) getHosts() [][]string {
 	return updater.hostList
 }
 
-func (updater *hostUpdater) Log(s ...string) {
-	if loglevel > 2 {
-		log.Println("LOG: ", s)
-	}
-}
-
-func (updater *hostUpdater) Warn(err error, s string) bool {
-	if loglevel > 1 {
-		if err != nil {
-			log.Println("WARN:", s, err)
-			return true
-		}
-		return false
-	}
-	return false
-}
-
-func (updater *hostUpdater) Fatal(err error, s string) bool {
-	if loglevel > 0 {
-		if err != nil {
-			log.Println("FATAL: ", s, err)
-			return true
-		}
-		return false
-	}
-	return false
-}
-
 func (updater *hostUpdater) loadHosts() [][]string {
 	dat, err := ioutil.ReadFile(updater.hostfile)
 	var hostlist [][]string
 	hostlist = [][]string{[]string{}, []string{}}
-	if !updater.Warn(err, "Error reading host file, may take a moment to start up.") {
-		updater.Log("Local host file read into slice")
+	if !Warn(err, "Error reading host file, may take a moment to start up.") {
+		Log("Local host file read into slice")
 		hostlist = append(hostlist, updater.parseKvp(string(dat))...)
 	}
 	return hostlist
@@ -207,15 +169,15 @@ func newHostUpdater(samhost string, samport string, retries int, upstream string
 	var h hostUpdater
 	h.samHost = samhost
 	h.samPort = samport
-	h.Log("Looking for SAM bridge on: " + samhost)
-	h.Log("At port: " + samport)
+	Log("Looking for SAM bridge on: " + samhost)
+	Log("At port: " + samport)
 	h.samBridgeClient, h.samBridgeErrors = goSam.NewClient(samhost + ":" + samport)
 	goSam.ConnDebug = debug
-	h.Log("Connected to the SAM bridge on: " + samhost + ":" + samport)
+	Log("Connected to the SAM bridge on: " + samhost + ":" + samport)
 	h.parentList = upstream
 	h.tryFirst = parent
 	h.hostfile = hostfile
-	h.Log("Where to store hosts files: " + hostfile)
+	Log("Where to store hosts files: " + hostfile)
 	h.hostList = h.loadHosts()
 	h.retries = retries
 	h.writeHostList()
