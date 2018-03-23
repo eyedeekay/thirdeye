@@ -7,7 +7,7 @@ import (
 	"os"
 	"sort"
 	"strings"
-//	"time"
+	//	"time"
 )
 
 type hostUpdater struct {
@@ -89,25 +89,25 @@ func (updater *hostUpdater) sortHostList() [][]string {
 	return newHostList
 }
 
-func (updater *hostUpdater) pullUpdate(url string) [][]string{
-    t := updater.retries
-    var hostList string
-    for t >= 1 {
-		Log("Getting updates from new host providers.")
-		for _, u := range updater.parseCsv(url) {
+func (updater *hostUpdater) pullUpdate(url string) [][]string {
+	for _, u := range updater.parseCsv(url) {
+		t := updater.retries
+		var hostList string
+		for t >= 1 {
+			Log("Getting updates from new host providers.")
 			if done, h := updater.get(u); done {
 				hostList += h + "\n"
 				//updater.hostList = append(updater.hostList, updater.parseKvp(hostList)...)
-                return append(updater.hostList, updater.parseKvp(hostList)...)
+				return append(updater.hostList, updater.parseKvp(hostList)...)
 			}
 		}
 		t--
 	}
-    return updater.hostList
+	return updater.hostList
 }
 
 func (updater *hostUpdater) hostUpdate() {
-    updater.hostList = updater.pullUpdate(updater.tryFirst)
+	updater.hostList = updater.pullUpdate(updater.tryFirst)
 	updater.hostList = updater.pullUpdate(updater.parentList)
 	updater.writeHostList()
 	updater.hostList = [][]string{nil, nil}
@@ -117,7 +117,7 @@ func (updater *hostUpdater) hostUpdate() {
 }
 
 func (updater *hostUpdater) get(s string) (bool, string) {
-    //var samBridgeClient *goSam.Client
+	//var samBridgeClient *goSam.Client
 	tr := &http.Transport{
 		Dial: updater.samBridgeClient.Dial,
 	}
