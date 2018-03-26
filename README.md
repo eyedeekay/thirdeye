@@ -61,3 +61,9 @@ Flags/Defaults:
             false, "Print connection debug info")
         verbosity   := flag.Int("verbosity",
             4, "Verbosity level: 0=Quiet 1=Fatal 2=Warning 3=Debug")
+
+Launch and Add all Known Jump Services:
+=======================================
+
+        thirdeye --upstream http://no.i2p/export/alive-hosts.txt,http://i2pjump.i2p/hosts,http://i2p-projekt.i2p/hosts.txt,http://i2p2.i2p/hosts.txt
+

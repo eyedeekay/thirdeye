@@ -13,4 +13,4 @@ RUN go get -u github.com/eyedeekay/gosam
 RUN make release
 USER jump
 CMD ./bin/thirdeye -samhost=thirdeye-host \
-    -host=thirdeye-site
+    -host=thirdeye-site --upstream=http://no.i2p/export/alive-hosts.txt,http://i2pjump.i2p/hosts,http://i2p-projekt.i2p/hosts.txt,http://i2p2.i2p/hosts.txt
