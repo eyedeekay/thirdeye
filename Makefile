@@ -97,7 +97,7 @@ curltest:
 	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/hosts
 
 curltest2:
-	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/jump/i2pforum.i2p
+	/usr/bin/curl -L -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/jump/i2pforum.i2p
 
 curltest3:
 	/usr/bin/curl -x 127.0.0.1:4444 -d - http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/search/i2pforum.i2p

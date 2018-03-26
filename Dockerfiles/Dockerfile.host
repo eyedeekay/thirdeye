@@ -1,6 +1,6 @@
 FROM debian:sid
 RUN apt-get update && apt-get dist-upgrade -y
-RUN apt-get install -y gpg
+RUN apt-get install -y gpg ca-certificates
 RUN echo "deb http://repo.lngserv.ru/debian stretch main" | tee /etc/apt/sources.list.d/i2pd.list
 RUN echo "deb-src http://repo.lngserv.ru/debian stretch main" | tee -a /etc/apt/sources.list.d/i2pd.list
 RUN gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 66F6C87B98EBCFE2; \
