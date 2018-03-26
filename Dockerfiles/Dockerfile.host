@@ -5,6 +5,7 @@ RUN echo "deb http://repo.lngserv.ru/debian stretch main" | tee /etc/apt/sources
 RUN echo "deb-src http://repo.lngserv.ru/debian stretch main" | tee -a /etc/apt/sources.list.d/i2pd.list
 RUN (gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 66F6C87B98EBCFE2 || \
     gpg --keyserver pgp.mit.edu --recv-keys 66F6C87B98EBCFE2 || \
+    gpg --keyserver keyserver.ubuntu.com --recv-keys 66F6C87B98EBCFE2 || \
     gpg --keyserver keyserver.pgp.com --recv-keys 66F6C87B98EBCFE2 ); \
 	gpg -a --export 66F6C87B98EBCFE2 | apt-key add -
 RUN apt-get update && apt-get install -y i2pd
