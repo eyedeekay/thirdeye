@@ -125,3 +125,5 @@ firejump:
 get:
 	iceweasel http://stats.i2p/cgi-bin/newhosts.txt
 
+surf:
+	http_proxy=http://127.0.0.1:4444 surf http://lxik2bjgdl7462opwmkzkxsx5gvvptjbtl35rawytkndf2z7okqq.b32.i2p/index.html
