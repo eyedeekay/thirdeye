@@ -21,7 +21,7 @@ func main() {
 	retries := flag.Int("retries", 1, "Number of attempts to fetch new hosts")
 	interval := flag.Int("interval", 6, "Hours between updatess")
 	newhosts := flag.String("newhosts", "http://inr.i2p/export/alive-hosts.txt", "Fetch new hosts from here")
-	upstream := flag.String("upstream", "", "Fetch more hosts from here")
+	upstream := flag.String("upstream", "http://inr.i2p/export/alive-hosts.txt", "Fetch more hosts from here")
 
 	hostfile := flag.String("hostfile", "etc/thirdeye/localhosts.txt", "Local hosts file")
 
