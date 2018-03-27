@@ -42,10 +42,10 @@ clean-network: clean
 docker-build: docker-build-host docker-build-site
 
 docker-build-site:
-	docker build -f Dockerfiles/Dockerfile.site -t eyedeekay/thirdeye-site .
+	docker build --force-rm -f Dockerfiles/Dockerfile.site -t eyedeekay/thirdeye-site .
 
 docker-build-host:
-	docker build -f Dockerfiles/Dockerfile.host -t eyedeekay/thirdeye-host .
+	docker build --force-rm -f Dockerfiles/Dockerfile.host -t eyedeekay/thirdeye-host .
 
 clean-build: clean-site clean-host
 
