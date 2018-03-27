@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/eyedeekay/gosam"
 	"io/ioutil"
+    "net"
 	"net/http"
 	"os"
 	"sort"
@@ -146,6 +147,34 @@ func (updater *hostUpdater) getHosts() [][]string {
 	return updater.hostList
 }
 
+func (updater *hostUpdater) Dial(network, addr string) (net.Conn, error) {
+	portIdx := strings.Index(addr, ":")
+	if portIdx >= 0 {
+		addr = addr[:portIdx]
+	}
+	addr, err := updater.samBridgeClient.Lookup(addr)
+	if err != nil {
+		return nil, err
+	}
+
+	id, _, err := updater.samBridgeClient.CreateStreamSession("")
+	if err != nil {
+		return nil, err
+	}
+
+	newC, err := goSam.NewClient(updater.samHost + ":" + updater.samPort)
+	if err != nil {
+		return nil, err
+	}
+
+	err = newC.StreamConnect(id, addr)
+	if err != nil {
+		return nil, err
+	}
+
+	return newC.SamConn, nil
+}
+
 func (updater *hostUpdater) loadHosts() [][]string {
 	dat, err := ioutil.ReadFile(updater.hostfile)
 	var hostlist [][]string
@@ -161,9 +190,9 @@ func newHostUpdater(samhost string, samport string, retries int, upstream string
 	var h hostUpdater
 	h.samHost = samhost
 	h.samPort = samport
-	Log("Looking for SAM bridge on: " + samhost)
-	Log("At port: " + samport)
-	h.samBridgeClient, h.samBridgeErrors = goSam.NewClient(samhost + ":" + samport)
+	Log("Looking for SAM bridge on: " + h.samHost)
+	Log("At port: " + h.samPort)
+	h.samBridgeClient, h.samBridgeErrors = goSam.NewClient(h.samHost + ":" + h.samPort)
 	goSam.ConnDebug = debug
 	Log("Connected to the SAM bridge on: " + samhost + ":" + samport)
 	h.parentList = upstream
