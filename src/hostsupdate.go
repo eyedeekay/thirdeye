@@ -120,7 +120,7 @@ func (updater *hostUpdater) hostUpdate() {
 func (updater *hostUpdater) get(s string) (bool, string) {
 	//var samBridgeClient *goSam.Client
 	tr := &http.Transport{
-		Dial: updater.samBridgeClient.Dial,
+		Dial: updater.Dial,
 	}
 
 	Log("Fetching updates from: " + s)
