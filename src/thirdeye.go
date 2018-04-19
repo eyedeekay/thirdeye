@@ -18,7 +18,7 @@ func main() {
 	samport := flag.String("samport", "7656", "SAM port.")
 	host := flag.String("host", "0.0.0.0", "Host address to listen on.")
 	port := flag.String("port", "8053", "Port to listen on.")
-	retries := flag.Int("retries", 1, "Number of attempts to fetch new hosts")
+	retries := flag.Int("retries", 0, "Number of attempts to fetch new hosts")
 	interval := flag.Int("interval", 6, "Hours between updatess")
 	newhosts := flag.String("newhosts", "http://inr.i2p/export/alive-hosts.txt", "Fetch new hosts from here")
 	upstream := flag.String("upstream", "http://inr.i2p/export/alive-hosts.txt", "Fetch more hosts from here")
