@@ -161,6 +161,7 @@ func (jumpsite *jumpService) doJump(test string, w http.ResponseWriter, r *http.
 				//fmt.Fprintln(w, "<pre><code>")
 				//fmt.Fprintln(w, "    ", line)
 				//fmt.Fprintln(w, "</pre></code>")
+                //fmt.Fprintln(w, "<a href=\"", line, "\">", line, "</a>")
 				//jumpsite.emitFooter(w, r)
 				b = true
 				return b
