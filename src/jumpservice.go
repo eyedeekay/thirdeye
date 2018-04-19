@@ -156,12 +156,12 @@ func (jumpsite *jumpService) doJump(test string, w http.ResponseWriter, r *http.
 				line := "http://" + t[0] + "/?i2paddresshelper=" + val[0]
 				w.Header().Set("Location", line)
 				w.WriteHeader(301)
-				jumpsite.emitHeader(w, r)
-				fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
-				fmt.Fprintln(w, "<pre><code>")
-				fmt.Fprintln(w, "    ", line)
-				fmt.Fprintln(w, "</pre></code>")
-				jumpsite.emitFooter(w, r)
+				//jumpsite.emitHeader(w, r)
+				//fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
+				//fmt.Fprintln(w, "<pre><code>")
+				//fmt.Fprintln(w, "    ", line)
+				//fmt.Fprintln(w, "</pre></code>")
+				//jumpsite.emitFooter(w, r)
 				b = true
 				return b
 			}
