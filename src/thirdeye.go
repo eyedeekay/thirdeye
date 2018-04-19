@@ -29,7 +29,7 @@ func main() {
 
 	icofile := flag.String("icofile", "etc/thirdeye/favicon.ico", "Local favicon file")
 
-	debug := flag.Bool("debug", true, "Print connection debug info")
+	debug := flag.Bool("debug", false, "Print connection debug info")
 	verbosity := flag.Int("verbosity", 2, "Verbosity level: 0=Quiet 1=Fatal 2=Warning 3=Debug")
 
 	flag.Parse()
