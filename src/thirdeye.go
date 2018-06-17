@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"log"
-    "os"
+	"os"
 	"time"
 )
 
@@ -46,7 +46,7 @@ func main() {
 	Upstream := *upstream
 	HostFile := *hostfile
 
-	CssFile := *cssfile
+	CSSFile := *cssfile
 	IconFile := *icofile
 
 	SamConnHost := *samhost
@@ -76,7 +76,7 @@ func main() {
 		Description,
 		HostFile,
 		LogWhiteList,
-		CssFile,
+		CSSFile,
 		IconFile)
 	go jumpService.Serve()
 	for true {
@@ -87,12 +87,14 @@ func main() {
 
 }
 
+// Log logs
 func Log(s ...string) {
 	if loglevel > 2 {
 		log.Println("LOG: ", s)
 	}
 }
 
+// Warn warns
 func Warn(err error, s string) bool {
 	if loglevel > 1 {
 		if err != nil {
@@ -104,6 +106,7 @@ func Warn(err error, s string) bool {
 	return false
 }
 
+// Fatal kills
 func Fatal(err error, s string) bool {
 	if loglevel > 0 {
 		if err != nil {
@@ -118,7 +121,6 @@ func Fatal(err error, s string) bool {
 func exists(file string) (bool, error) {
 	if _, err := os.Stat(file); err == nil {
 		return true, err
-	} else {
-		return false, err
 	}
+	return false, err
 }

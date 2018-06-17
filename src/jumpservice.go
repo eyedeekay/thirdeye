@@ -156,13 +156,6 @@ func (jumpsite *jumpService) doJump(test string, w http.ResponseWriter, r *http.
 				line := "http://" + t[0] + "/?i2paddresshelper=" + val[0]
 				w.Header().Set("Location", line)
 				w.WriteHeader(301)
-				//jumpsite.emitHeader(w, r)
-				//fmt.Fprintln(w, "<h1>", "Looking up:", test, "... checking", jumpsite.length(), "hosts", "</h1>")
-				//fmt.Fprintln(w, "<pre><code>")
-				//fmt.Fprintln(w, "    ", line)
-				//fmt.Fprintln(w, "</pre></code>")
-                //fmt.Fprintln(w, "<a href=\"", line, "\">", line, "</a>")
-				//jumpsite.emitFooter(w, r)
 				b = true
 				return b
 			}
@@ -247,21 +240,17 @@ func (jumpsite *jumpService) handle404(l int, s []string, w http.ResponseWriter,
 		if s[0] == "jump" {
 			if s[1] != "" {
 				return true, l
-			} else {
-				return true, 1
 			}
-		} else {
-			if s[1] != "" {
-				return true, l
-			} else {
-				return true, 1
-			}
+			return true, 1
 		}
-	} else {
-		w.WriteHeader(404)
-		fmt.Fprintln(w, r.URL.Path)
-		fmt.Fprintln(w, "You're lost, go home")
+		if s[1] != "" {
+			return true, l
+		}
+		return true, 1
 	}
+	w.WriteHeader(404)
+	fmt.Fprintln(w, r.URL.Path)
+	fmt.Fprintln(w, "You're lost, go home")
 	return false, 0
 }
 
@@ -319,11 +308,11 @@ func (jumpsite *jumpService) loadCSS() string {
 	if err == nil {
 		Log("Loaded CSS", jumpsite.cssFile)
 		return string(dat)
-	} else {
-		Log("Error loading CSS", jumpsite.cssFile)
-		log.Println(err)
-		return "\n"
 	}
+	Log("Error loading CSS", jumpsite.cssFile)
+	log.Println(err)
+	return "\n"
+
 }
 
 func (jumpsite *jumpService) loadICO() []byte {
@@ -331,11 +320,10 @@ func (jumpsite *jumpService) loadICO() []byte {
 	if err == nil {
 		Log("Loaded icon", jumpsite.iconFile)
 		return dat
-	} else {
-		Log("Error loading icon", jumpsite.iconFile)
-		log.Println(err)
-		return nil
 	}
+	Log("Error loading icon", jumpsite.iconFile)
+	log.Println(err)
+	return nil
 }
 
 func newJumpService(host string, port string, title string, desc string, hostfile string, logwl string, cssfile string, icofile string) *jumpService {

@@ -3,6 +3,9 @@
 i2pd_dat?=$(PWD)/i2pd_dat
 
 dummy:
+	cd src && gofmt -w *.go && \
+		golint *.go && \
+		go vet *.go
 
 build:
 	GOOS=linux GOARCH=amd64 go build -a -o bin/thirdeye \

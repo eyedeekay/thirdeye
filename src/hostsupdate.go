@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/eyedeekay/gosam"
 	"io/ioutil"
-    "net"
+	"net"
 	"net/http"
 	"os"
 	"sort"
@@ -193,7 +193,7 @@ func newHostUpdater(samhost string, samport string, retries int, upstream string
 	Log("Looking for SAM bridge on: " + h.samHost)
 	Log("At port: " + h.samPort)
 	h.samBridgeClient, h.samBridgeErrors = goSam.NewClient(h.samHost + ":" + h.samPort)
-	goSam.ConnDebug = debug
+	//goSam.ConnDebug = debug
 	Log("Connected to the SAM bridge on: " + samhost + ":" + samport)
 	h.parentList = upstream
 	h.tryFirst = parent
@@ -206,3 +206,6 @@ func newHostUpdater(samhost string, samport string, retries int, upstream string
 	h.hostList = h.sortHostList()
 	return &h
 }
+
+//func newHostUpdaterFromOptions(opts ...func(*hostUpdater) error) (*hostUpdater, error) {
+//}
